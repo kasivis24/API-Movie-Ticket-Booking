@@ -7,10 +7,7 @@ import com.incubation.movieticketbooking.data.dto.LoginInfo;
 import com.incubation.movieticketbooking.data.dto.UserInfo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,7 +31,8 @@ public class SignUpServlet extends HttpServlet {
         System.out.println("get caled");
         BufferedReader reader = req.getReader();
         StringBuilder sb = new StringBuilder();
-        HttpSession session = req.getSession(false);
+
+//        HttpSession session = req.getSession(false);
         String line;
 
         while ((line = reader.readLine()) != null) {
@@ -55,10 +53,16 @@ public class SignUpServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         System.out.println(name);
         System.out.println(email);
+
         try {
             if (name != null && email != null && password != null && !name.isEmpty() && !email.isEmpty() && !password.isEmpty()){
                 appDb.addUserData(new UserInfo(userUid,name,email,password));
-                session.setAttribute("userToken",userUid);
+                Cookie authCookie = new Cookie("userToken",userUid);
+                authCookie.setHttpOnly(true);
+                authCookie.setMaxAge(60 * 60);
+                authCookie.setPath("/");
+                resp.addCookie(authCookie);
+//                session.setAttribute("userToken",userUid);
                 System.out.println(name);
                 System.out.println(email);
                 System.out.println(userUid);

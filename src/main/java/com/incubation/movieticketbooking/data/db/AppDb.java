@@ -32,6 +32,101 @@ public class AppDb {
         return instance;
     }
 
+    public static boolean payNow(String userUid, int movieId, int theaterId, int showId, List<String> seatNames) throws SQLException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int bookingId = 0;
+        int seatCount = seatNames.size();
+        int totalPrice = 0;
+        List<Integer> seatIds = new ArrayList<>();
+        userUid = "8fd0efd1-58d3-4670-bf65-9cacc0b85887";
+
+        try {
+            // Start transaction
+            conn.setAutoCommit(false);
+
+            // 1. Convert seatNames -> seatIds
+            String placeholders = String.join(",", Collections.nCopies(seatNames.size(), "?"));
+            String query = "SELECT seat_id, price FROM Seats WHERE show_id = ? AND seat_number IN (" + placeholders + ")";
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, showId);
+            for (int i = 0; i < seatNames.size(); i++) {
+                stmt.setString(i + 2, seatNames.get(i));
+            }
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                seatIds.add(rs.getInt("seat_id"));
+                totalPrice += rs.getInt("price");
+            }
+
+            if (seatIds.size() != seatNames.size()) {
+                return false;
+            }
+
+            rs.close();
+            stmt.close();
+
+            // 2. Insert into Bookings
+            String insertBooking = "INSERT INTO Bookings (userUid) VALUES (?)";
+            stmt = conn.prepareStatement(insertBooking, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, userUid);
+
+            String temp = userUid;
+            stmt.executeUpdate();
+            rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                bookingId = rs.getInt(1);
+            }
+            rs.close();
+            stmt.close();
+
+            // 3. Insert into BookingDetails
+            String insertDetails = "INSERT INTO BookingDetails (booking_id, theater_id, movie_id, seat_count, price) VALUES (?, ?, ?, ?, ?)";
+            stmt = conn.prepareStatement(insertDetails);
+            stmt.setInt(1, bookingId);
+            stmt.setInt(2, theaterId);
+            stmt.setInt(3, movieId);
+            stmt.setInt(4, seatCount);
+            stmt.setInt(5, totalPrice);
+            stmt.executeUpdate();
+            stmt.close();
+
+            // 4. Insert into SeatAllotment
+            String insertAllotment = "INSERT INTO SeatAllotment (booking_id, seat_id) VALUES (?, ?)";
+            stmt = conn.prepareStatement(insertAllotment);
+            for (int seatId : seatIds) {
+                stmt.setInt(1, bookingId);
+                stmt.setInt(2, seatId);
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+            stmt.close();
+
+            // 5. Update Seats to mark as booked
+            String seatIdPlaceholders = String.join(",", Collections.nCopies(seatIds.size(), "?"));
+            String updateSeats = "UPDATE Seats SET is_booked = TRUE WHERE seat_id IN (" + seatIdPlaceholders + ")";
+            stmt = conn.prepareStatement(updateSeats);
+            for (int i = 0; i < seatIds.size(); i++) {
+                stmt.setInt(i + 1, seatIds.get(i));
+            }
+            stmt.executeUpdate();
+            stmt.close();
+
+            conn.commit();
+            System.out.println("Booking successful. Booking ID: " + bookingId);
+
+        } catch (SQLException ex) {
+            conn.rollback();
+            System.err.println("Transaction failed. Rolling back. Error: " + ex.getMessage());
+            return false;
+        } finally {
+            if (stmt != null) stmt.close();
+            conn.setAutoCommit(true);
+        }
+
+        return true;
+    }
 
     public List<Seat> getSeats(int showId) throws SQLException {
 
@@ -208,6 +303,7 @@ public class AppDb {
         }
         return userProfileInfo;
     }
+
     public List<Show> getShowsByTheatre(int theatreId,int movieId) throws SQLException {
 
         List<Show> showList = new ArrayList<>();

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login</title>
+    <style>
+        .login-container {
+          display: flex;
+          justify-content: center;
+          margin-top: 100px;
+        }
+        .login-form {
+          border: 1px solid #ccc;
+          padding: 30px;
+          border-radius: 8px;
+          width: 300px;
+          background-color: #f9f9f9;
+        }
+        .login-form h2 {
+          margin-bottom: 20px;
+          text-align: center;
+        }
+        .login-form label {
+          display: block;
+          margin-top: 15px;
+        }
+        .login-form input {
+          width: 100%;
+          padding: 8px;
+          margin-top: 5px;
+        }
+        .login-form button {
+          margin-top: 20px;
+          width: 100%;
+          padding: 10px;
+          background-color: #f1d13f;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+        .signup-text {
+          text-align: center;
+          margin-top: 15px;
+        }
+        .signup-text a {
+          text-decoration: none;
+          color: #f1d13f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-form">
+        <h2>Login</h2>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required />
+
+        <button id="loginBtn">Login</button>
+
+        <p class="signup-text">
+            Don’t have an account? <a href="signup.html">Sign up</a>
+        </p>
+    </div>
+</div>
+
+<script src="../js/login.js"></script>
+</body>
+</html>

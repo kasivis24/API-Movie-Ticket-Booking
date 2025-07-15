@@ -36,8 +36,12 @@
 }
 
 .seat.booked {
-  background-color: #ffcccc;
+  background-color: #fcc;
   cursor: not-allowed;
+}
+
+.seat.tempBooked {
+  background-color: #f1d13f;
 }
 
 

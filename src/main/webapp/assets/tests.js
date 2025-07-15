@@ -248,6 +248,30 @@ define("ember-js-project/tests/integration/components/theatre-card-test", ["quni
     });
   });
 });
+define("ember-js-project/tests/integration/helpers/includes-test", ["qunit", "ember-js-project/tests/helpers", "@ember/test-helpers", "@ember/template-factory"], function (_qunit, _helpers, _testHelpers, _templateFactory) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers",0,"@ember/test-helpers",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Integration | Helper | includes', function (hooks) {
+    (0, _helpers.setupRenderingTest)(hooks);
+
+    // TODO: Replace this with your real tests.
+    (0, _qunit.test)('it renders', async function (assert) {
+      this.set('inputValue', '1234');
+      await (0, _testHelpers.render)((0, _templateFactory.createTemplateFactory)(
+      /*
+        {{includes this.inputValue}}
+      */
+      {
+        "id": "q/JvSTvW",
+        "block": "[[[1,[28,[35,0],[[30,0,[\"inputValue\"]]],null]]],[],[\"includes\"]]",
+        "moduleName": "D:\\zsgs\\DSA\\EmberJSProject\\EmberJsProject\\ember-js-project\\tests\\integration\\helpers\\includes-test.js",
+        "isStrictMode": false
+      }));
+      assert.dom().hasText('1234');
+    });
+  });
+});
 define("ember-js-project/tests/test-helper", ["ember-js-project/app", "ember-js-project/config/environment", "qunit", "@ember/test-helpers", "qunit-dom", "ember-qunit/test-loader", "ember-qunit"], function (_app, _environment, QUnit, _testHelpers, _qunitDom, _testLoader, _emberQunit) {
   "use strict";
 

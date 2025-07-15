@@ -116,15 +116,15 @@
   });
   var _default = _exports.default = (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, (0, _templateOnly.default)(undefined, "show-card"));
 });
-;define("ember-js-project/components/show-seats-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@glimmer/tracking", "@ember/template-factory"], function (_exports, _component, _component2, _object, _tracking, _templateFactory) {
+;define("ember-js-project/components/show-seats-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@glimmer/tracking", "@ember/service", "@ember/template-factory"], function (_exports, _component, _component2, _object, _tracking, _service, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  var _class, _descriptor;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/object",0,"@glimmer/tracking",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
+  var _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/object",0,"@glimmer/tracking",0,"@ember/service",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -148,27 +148,44 @@
   
   <div class="seats-container">
     {{#each @seats as |seat|}}
-      <div class="seat {{if seat.isBooked "booked" "available"}}">
-        {{seat.seatNumber}}
-      </div>
+      {{#unless seat.isBooked}} 
+        <div 
+          class="seat {{if (includes this.tempSeatsList seat.seatNumber) "tempBooked" "available"}}"  
+          {{on "click" (fn this.selectSeat seat @showAmount)}}
+        >
+          {{seat.seatNumber}}
+        </div>
+      {{else}}
+        <div 
+          class="seat booked"
+        >
+          {{seat.seatNumber}}
+        </div>
+      {{/unless}}
     {{/each}}
   </div>
   
+  
   <div class="theatre-info">
-      <p><strong>Total Seats Selected -> </strong> 10</p>
-      <p><strong> Amount -> </strong> $4000</p>
+      <p><strong>Total Seats Selected -> </strong> {{this.tempSeatsList.length}} </p>
+      <p><strong> Amount -> </strong> $ {{this.showAmount}} </p>
   </div>
   
   <div class="payment">
-      <button type="submit" class=""> Pay Now</button>
+    <button 
+    type="button" 
+    {{on "click" (fn this.payNow @movie.movieId @theatre.theatreId @show.showId)}}
+  >
+    Pay Now
+  </button>
   </div>
     </div>
   </div>
   
   */
   {
-    "id": "1Mh4pzlu",
-    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Movie name: \"],[1,[30,1,[\"movieTitle\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Theatre name : \"],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Show Details\"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Date & Time\"],[13],[1,[30,3,[\"dateTime\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Price\"],[13],[1,[30,3,[\"basePrice\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Available Seat\"],[13],[1,[30,3,[\"availableSeat\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n\"],[42,[28,[37,5],[[28,[37,5],[[30,4]],null]],null],null,[[[1,\"    \"],[10,0],[15,0,[29,[\"seat \",[52,[30,5,[\"isBooked\"]],\"booked\",\"available\"]]]],[12],[1,\"\\n      \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[5]],null],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Total Seats Selected -> \"],[13],[1,\" 10\"],[13],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\" Amount -> \"],[13],[1,\" $4000\"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"payment\"],[12],[1,\"\\n    \"],[10,\"button\"],[14,0,\"\"],[14,4,\"submit\"],[12],[1,\" Pay Now\"],[13],[1,\"\\n\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@movie\",\"@theatre\",\"@show\",\"@seats\",\"seat\"],[\"div\",\"h3\",\"p\",\"strong\",\"each\",\"-track-array\",\"if\",\"button\"]]",
+    "id": "FOG/1TKa",
+    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Movie name: \"],[1,[30,1,[\"movieTitle\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Theatre name : \"],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Show Details\"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Date & Time\"],[13],[1,[30,3,[\"dateTime\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Price\"],[13],[1,[30,3,[\"basePrice\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Available Seat\"],[13],[1,[30,3,[\"availableSeat\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n\"],[42,[28,[37,5],[[28,[37,5],[[30,4]],null]],null],null,[[[41,[51,[30,5,[\"isBooked\"]]],[[[1,\"      \"],[11,0],[16,0,[29,[\"seat \",[52,[28,[37,8],[[30,0,[\"tempSeatsList\"]],[30,5,[\"seatNumber\"]]],null],\"tempBooked\",\"available\"]]]],[4,[38,9],[\"click\",[28,[37,10],[[30,0,[\"selectSeat\"]],[30,5],[30,6]],null]],null],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],[[[1,\"      \"],[10,0],[14,0,\"seat booked\"],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]]]],[5]],null],[13],[1,\"\\n\\n\\n\"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Total Seats Selected -> \"],[13],[1,\" \"],[1,[30,0,[\"tempSeatsList\",\"length\"]]],[1,\" \"],[13],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\" Amount -> \"],[13],[1,\" $ \"],[1,[30,0,[\"showAmount\"]]],[1,\" \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"payment\"],[12],[1,\"\\n  \"],[11,\"button\"],[24,4,\"button\"],[4,[38,9],[\"click\",[28,[37,10],[[30,0,[\"payNow\"]],[30,1,[\"movieId\"]],[30,2,[\"theatreId\"]],[30,3,[\"showId\"]]],null]],null],[12],[1,\"\\n  Pay Now\\n\"],[13],[1,\"\\n\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@movie\",\"@theatre\",\"@show\",\"@seats\",\"seat\",\"@showAmount\"],[\"div\",\"h3\",\"p\",\"strong\",\"each\",\"-track-array\",\"unless\",\"if\",\"includes\",\"on\",\"fn\",\"button\"]]",
     "moduleName": "ember-js-project/components/show-seats-dialog.hbs",
     "isStrictMode": false
   });
@@ -176,10 +193,55 @@
     constructor(...args) {
       super(...args);
       _initializerDefineProperty(this, "seatsDataList", _descriptor, this);
+      _initializerDefineProperty(this, "showAmount", _descriptor2, this);
+      _initializerDefineProperty(this, "tempSeatsList", _descriptor3, this);
+      _initializerDefineProperty(this, "movieState", _descriptor4, this);
     }
     async seatsData(showId) {
       let response = await fetch(`http://localhost:8080/api/v1/seats?showId=${showId}`);
       this.seatsDataList = await response.json();
+    }
+    selectSeat(seat, price) {
+      console.log("Hello");
+      console.log(price);
+      if (this.tempSeatsList.includes(seat.seatNumber)) {
+        this.unSelectSeat(seat, price);
+      } else {
+        this.showAmount += price;
+        this.tempSeatsList = [...this.tempSeatsList, seat.seatNumber];
+        console.log(this.tempSeatsList);
+      }
+    }
+    unSelectSeat(seat, price) {
+      console.log("Unselect");
+      this.showAmount -= price;
+      this.tempSeatsList = this.tempSeatsList.filter(item => item !== seat.seatNumber);
+    }
+    async payNow(movieId, theatreId, showId) {
+      console.log("Api");
+      let response = await fetch('http://localhost:8080/api/v1/booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          movieId: movieId,
+          theatreId: theatreId,
+          showId: showId,
+          seatIds: this.tempSeatsList
+        })
+      });
+      const data = await response.json();
+      if (data.status === "success") {
+        alert(`Seat Booked Successfully`);
+        this.movieState.changeDialogStateHide();
+      } else {
+        alert(`Something Went Wrong`);
+        this.movieState.changeDialogStateHide();
+      }
+    }
+    check() {
+      console.log("Hello kasi");
     }
   }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "seatsDataList", [_tracking.tracked], {
     configurable: true,
@@ -188,7 +250,26 @@
     initializer: function () {
       return [];
     }
-  }), _applyDecoratedDescriptor(_class.prototype, "seatsData", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "seatsData"), _class.prototype), _class);
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "showAmount", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 0;
+    }
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "tempSeatsList", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [];
+    }
+  }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "movieState", [_service.service], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _applyDecoratedDescriptor(_class.prototype, "seatsData", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "seatsData"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "selectSeat", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "selectSeat"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "unSelectSeat", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "unSelectSeat"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "payNow", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "payNow"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "check", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "check"), _class.prototype), _class);
   (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, ShowSeatsDialogComponents);
 });
 ;define("ember-js-project/components/showtime-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@glimmer/tracking", "@ember/service", "@ember/template-factory"], function (_exports, _component, _component2, _object, _tracking, _service, _templateFactory) {
@@ -226,13 +307,13 @@
   
   
   {{#if this.isDialogVisible}}
-    <ShowSeatsDialog @movie = {{@movie}} @theatre = {{@theatre}} @show = {{this.selectedShow}} @onClose = {{this.closeDialog}} @seats = {{this.seatsList}} />
+    <ShowSeatsDialog @movie = {{@movie}} @theatre = {{@theatre}} @show = {{this.selectedShow}} @onClose = {{this.closeDialog}} @seats = {{this.seatsList}} @showAmount = {{this.selectedShow.basePrice}} />
   {{/if}}
   
   */
   {
-    "id": "bWVTdbGH",
-    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Movie name: \"],[1,[30,1,[\"movieTitle\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Theatre name : \"],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,\"h2\"],[12],[1,\"Showtimes\"],[13],[1,\"\\n    \"],[10,0],[14,0,\"show-list-scroll\"],[12],[1,\"\\n\"],[42,[28,[37,4],[[28,[37,4],[[30,3]],null]],null],null,[[[1,\"        \"],[8,[39,5],null,[[\"@show\",\"@bookSeat\"],[[30,4],[28,[37,6],[[30,0,[\"bookSeat\"]],[30,4]],null]]],null],[1,\"\\n\"]],[4]],null],[1,\"    \"],[13],[1,\"  \\n    \"],[11,\"button\"],[24,0,\"dialog-close-btn\"],[24,4,\"button\"],[4,[38,8],[\"click\",[30,5]],null],[12],[1,\"Close\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\\n\"],[41,[30,0,[\"isDialogVisible\"]],[[[1,\"  \"],[8,[39,10],null,[[\"@movie\",\"@theatre\",\"@show\",\"@onClose\",\"@seats\"],[[30,1],[30,2],[30,0,[\"selectedShow\"]],[30,0,[\"closeDialog\"]],[30,0,[\"seatsList\"]]]],null],[1,\"\\n\"]],[]],null]],[\"@movie\",\"@theatre\",\"@show\",\"show\",\"@onClose\"],[\"div\",\"h3\",\"h2\",\"each\",\"-track-array\",\"show-card\",\"fn\",\"button\",\"on\",\"if\",\"show-seats-dialog\"]]",
+    "id": "WVV4GFi7",
+    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Movie name: \"],[1,[30,1,[\"movieTitle\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Theatre name : \"],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,\"h2\"],[12],[1,\"Showtimes\"],[13],[1,\"\\n    \"],[10,0],[14,0,\"show-list-scroll\"],[12],[1,\"\\n\"],[42,[28,[37,4],[[28,[37,4],[[30,3]],null]],null],null,[[[1,\"        \"],[8,[39,5],null,[[\"@show\",\"@bookSeat\"],[[30,4],[28,[37,6],[[30,0,[\"bookSeat\"]],[30,4]],null]]],null],[1,\"\\n\"]],[4]],null],[1,\"    \"],[13],[1,\"  \\n    \"],[11,\"button\"],[24,0,\"dialog-close-btn\"],[24,4,\"button\"],[4,[38,8],[\"click\",[30,5]],null],[12],[1,\"Close\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\\n\"],[41,[30,0,[\"isDialogVisible\"]],[[[1,\"  \"],[8,[39,10],null,[[\"@movie\",\"@theatre\",\"@show\",\"@onClose\",\"@seats\",\"@showAmount\"],[[30,1],[30,2],[30,0,[\"selectedShow\"]],[30,0,[\"closeDialog\"]],[30,0,[\"seatsList\"]],[30,0,[\"selectedShow\",\"basePrice\"]]]],null],[1,\"\\n\"]],[]],null]],[\"@movie\",\"@theatre\",\"@show\",\"show\",\"@onClose\"],[\"div\",\"h3\",\"h2\",\"each\",\"-track-array\",\"show-card\",\"fn\",\"button\",\"on\",\"if\",\"show-seats-dialog\"]]",
     "moduleName": "ember-js-project/components/showtime-dialog.hbs",
     "isStrictMode": false
   });
@@ -346,6 +427,10 @@
       _initializerDefineProperty(this, "email", _descriptor, this);
       _initializerDefineProperty(this, "password", _descriptor2, this);
       _initializerDefineProperty(this, "loginMessage", _descriptor3, this);
+    }
+    hasCookie() {
+      const value = `; ${document.cookie}`;
+      return value.includes(`; ${'userToken'}=`);
     }
     updateEmailLogin(event) {
       this.email = event.target.value;
@@ -671,6 +756,18 @@
     return match ? match[0] : version;
   }
   var _default = _exports.default = (0, _helper.helper)(appVersion);
+});
+;define("ember-js-project/helpers/includes", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = includes;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  function includes(list, item) {
+    return list.includes(item);
+  }
 });
 ;define("ember-js-project/helpers/page-title", ["exports", "ember-page-title/helpers/page-title"], function (_exports, _pageTitle) {
   "use strict";

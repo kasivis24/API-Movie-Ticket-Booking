@@ -6,10 +6,7 @@ import com.incubation.movieticketbooking.data.dto.LoginInfo;
 import com.incubation.movieticketbooking.data.dto.UserInfo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,6 +35,7 @@ public class LoginServlet extends HttpServlet {
         while ((line = reader.readLine()) != null) {
             sb.append(line);
         }
+
         String json = sb.toString();
 
         LoginInfo data = new Gson().fromJson(json, LoginInfo.class);
@@ -48,13 +46,18 @@ public class LoginServlet extends HttpServlet {
         String password = data.getPassword();
 
 
-        HttpSession session = req.getSession(false);
+//        HttpSession session = req.getSession(false);
 
         try {
             if (email != null && password != null && !email.isEmpty() && !password.isEmpty()){
                 if (appDb.loginVerify(new LoginInfo(email,password))){
                     String userUid = appDb.getUserUid(email);
-                    session.setAttribute("userToken",userUid);
+                    Cookie authCookie = new Cookie("userToken",userUid);
+                    authCookie.setHttpOnly(true);
+                    authCookie.setMaxAge(60 * 60);
+                    authCookie.setPath("/");
+                    resp.addCookie(authCookie);
+//                    session.setAttribute("userToken",userUid);
                     out.print("{\"status\":\"success\",\"message\":\"User Login successfully\", \"userUid\": \"" + userUid + "\"}");
                 }else {
                     out.print("{\"status\":\"error\",\"message\":\"Email already exists\"}");

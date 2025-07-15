@@ -1,30 +1,30 @@
 package com.incubation.movieticketbooking.auth;
 
+import com.incubation.movieticketbooking.utils.Utils;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter("/*")
+@WebFilter("/dashboard")
 public class AuthFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletResponse res = (HttpServletResponse) servletResponse;
         HttpServletRequest req = (HttpServletRequest) servletRequest;
+        HttpServletResponse res = (HttpServletResponse)  servletResponse;
 
-        // CORS Headers
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        res.setHeader("Access-Control-Allow-Credentials", "true");
+
+        if (Utils.isAuthenticatedPerson(req.getCookies())){
+            filterChain.doFilter(req,res);
+        }else {
+            res.sendRedirect( "/html/login.html");
+        }
 
         System.out.println(req.getContextPath());
-        System.out.println(req.getRequestURI());
-
-        filterChain.doFilter(req, res);
     }
 }
