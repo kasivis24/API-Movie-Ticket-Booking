@@ -31,7 +31,15 @@ console.log(relativeUrl);
 
       const result = await response.json();
 
-      if (result.status === 'success') {
+      console.log(result);
+
+      if (result.status === 'success' && result.userType === 'Admin'){
+         console.log('success login Admin');
+         alert(`Admin login successful! ${result.adminUid}`);
+         window.location.href = '/dashboard#/admin';
+      }
+      else if (result.status === 'success') {
+        console.log('success login user');
         document.cookie = `userToken=${result.userUid}; path=/`;
         alert(`Login successful!\nUser ID: ${result.userUid}`);
         window.location.href = '/dashboard#/movies';

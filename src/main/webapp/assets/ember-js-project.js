@@ -2,6 +2,26 @@
 
 
 
+;define("ember-js-project/adapters/application", ["exports", "@ember-data/adapter/json-api"], function (_exports, _jsonApi) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember-data/adapter/json-api"eaimeta@70e063a35619d71f
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  class ApplicationAdapter extends _jsonApi.default {
+    constructor(...args) {
+      super(...args);
+      _defineProperty(this, "host", 'http://localhost:8080');
+      _defineProperty(this, "namespace", 'api/v1');
+    }
+  }
+  _exports.default = ApplicationAdapter;
+});
 ;define("ember-js-project/app", ["exports", "@ember/application", "ember-resolver", "ember-load-initializers", "ember-js-project/config/environment", "@embroider/macros/es-compat2", "ember-js-project/deprecation-workflow"], function (_exports, _application, _emberResolver, _emberLoadInitializers, _environment, _esCompat, _importSync20) {
   "use strict";
 
@@ -27,15 +47,15 @@
   _exports.default = App;
   (0, _emberLoadInitializers.default)(App, _environment.default.modulePrefix);
 });
-;define("ember-js-project/components/movie-card", ["exports", "@ember/component", "@glimmer/component", "@ember/service", "@ember/template-factory"], function (_exports, _component, _component2, _service, _templateFactory) {
+;define("ember-js-project/components/movie-card", ["exports", "@ember/component", "@glimmer/component", "@ember/service", "@ember/object", "@glimmer/tracking", "@ember/template-factory"], function (_exports, _component, _component2, _service, _object, _tracking, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  var _class, _descriptor;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/service",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
+  var _class, _descriptor, _descriptor2;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/service",0,"@ember/object",0,"@glimmer/tracking",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -64,28 +84,38 @@
     constructor(...args) {
       super(...args);
       _initializerDefineProperty(this, "router", _descriptor, this);
-      _defineProperty(this, "goToMoviePage", () => {
-        console.log("moving");
-        const {
-          movie
-        } = this.args;
-        if (!movie) {
-          console.error("No movie passed to movie-card");
-          return;
-        }
-        const {
-          movieTitle,
-          movieId
-        } = movie;
-        this.router.transitionTo('movie', movieTitle, movieId);
-      });
+      _initializerDefineProperty(this, "list", _descriptor2, this);
     }
-  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "router", [_service.inject], {
+    goToMoviePage() {
+      console.log("moving");
+      const {
+        movie
+      } = this.args;
+      console.log(this.args);
+      console.log(movie);
+      if (!movie) {
+        console.error("No movie passed to movie-card");
+        return;
+      }
+      const {
+        movieTitle,
+        movieId
+      } = movie;
+      this.router.transitionTo('movie', movieTitle, movieId);
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "router", [_service.service], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _class);
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "list", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "goToMoviePage", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "goToMoviePage"), _class.prototype), _class);
   (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, MovieCardComponents);
 });
 ;define("ember-js-project/components/show-card", ["exports", "@ember/component", "@ember/component/template-only", "@ember/template-factory"], function (_exports, _component, _templateOnly, _templateFactory) {
@@ -116,7 +146,7 @@
   });
   var _default = _exports.default = (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, (0, _templateOnly.default)(undefined, "show-card"));
 });
-;define("ember-js-project/components/show-seats-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@glimmer/tracking", "@ember/service", "@ember/template-factory"], function (_exports, _component, _component2, _object, _tracking, _service, _templateFactory) {
+;define("ember-js-project/components/show-seats-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@glimmer/tracking", "@ember/service", "@ember/array", "@ember/template-factory"], function (_exports, _component, _component2, _object, _tracking, _service, _array, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -124,7 +154,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/object",0,"@glimmer/tracking",0,"@ember/service",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/object",0,"@glimmer/tracking",0,"@ember/service",0,"@ember/array",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -148,20 +178,20 @@
   
   <div class="seats-container">
     {{#each @seats as |seat|}}
-      {{#unless seat.isBooked}} 
+      {{#if seat.isBooked}}
+        <div 
+          class="seat booked"
+        >
+          {{seat.seatNumber}}
+        </div>
+      {{else}} 
         <div 
           class="seat {{if (includes this.tempSeatsList seat.seatNumber) "tempBooked" "available"}}"  
           {{on "click" (fn this.selectSeat seat @showAmount)}}
         >
           {{seat.seatNumber}}
         </div>
-      {{else}}
-        <div 
-          class="seat booked"
-        >
-          {{seat.seatNumber}}
-        </div>
-      {{/unless}}
+      {{/if}}
     {{/each}}
   </div>
   
@@ -184,8 +214,8 @@
   
   */
   {
-    "id": "FOG/1TKa",
-    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Movie name: \"],[1,[30,1,[\"movieTitle\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Theatre name : \"],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Show Details\"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Date & Time\"],[13],[1,[30,3,[\"dateTime\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Price\"],[13],[1,[30,3,[\"basePrice\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Available Seat\"],[13],[1,[30,3,[\"availableSeat\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n\"],[42,[28,[37,5],[[28,[37,5],[[30,4]],null]],null],null,[[[41,[51,[30,5,[\"isBooked\"]]],[[[1,\"      \"],[11,0],[16,0,[29,[\"seat \",[52,[28,[37,8],[[30,0,[\"tempSeatsList\"]],[30,5,[\"seatNumber\"]]],null],\"tempBooked\",\"available\"]]]],[4,[38,9],[\"click\",[28,[37,10],[[30,0,[\"selectSeat\"]],[30,5],[30,6]],null]],null],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],[[[1,\"      \"],[10,0],[14,0,\"seat booked\"],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]]]],[5]],null],[13],[1,\"\\n\\n\\n\"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Total Seats Selected -> \"],[13],[1,\" \"],[1,[30,0,[\"tempSeatsList\",\"length\"]]],[1,\" \"],[13],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\" Amount -> \"],[13],[1,\" $ \"],[1,[30,0,[\"showAmount\"]]],[1,\" \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"payment\"],[12],[1,\"\\n  \"],[11,\"button\"],[24,4,\"button\"],[4,[38,9],[\"click\",[28,[37,10],[[30,0,[\"payNow\"]],[30,1,[\"movieId\"]],[30,2,[\"theatreId\"]],[30,3,[\"showId\"]]],null]],null],[12],[1,\"\\n  Pay Now\\n\"],[13],[1,\"\\n\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@movie\",\"@theatre\",\"@show\",\"@seats\",\"seat\",\"@showAmount\"],[\"div\",\"h3\",\"p\",\"strong\",\"each\",\"-track-array\",\"unless\",\"if\",\"includes\",\"on\",\"fn\",\"button\"]]",
+    "id": "94nW5N2T",
+    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Movie name: \"],[1,[30,1,[\"movieTitle\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Theatre name : \"],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Show Details\"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Date & Time\"],[13],[1,[30,3,[\"dateTime\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Price\"],[13],[1,[30,3,[\"basePrice\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Available Seat\"],[13],[1,[30,3,[\"availableSeat\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n\"],[42,[28,[37,5],[[28,[37,5],[[30,4]],null]],null],null,[[[41,[30,5,[\"isBooked\"]],[[[1,\"      \"],[10,0],[14,0,\"seat booked\"],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],[[[1,\"      \"],[11,0],[16,0,[29,[\"seat \",[52,[28,[37,7],[[30,0,[\"tempSeatsList\"]],[30,5,[\"seatNumber\"]]],null],\"tempBooked\",\"available\"]]]],[4,[38,8],[\"click\",[28,[37,9],[[30,0,[\"selectSeat\"]],[30,5],[30,6]],null]],null],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]]]],[5]],null],[13],[1,\"\\n\\n\\n\"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Total Seats Selected -> \"],[13],[1,\" \"],[1,[30,0,[\"tempSeatsList\",\"length\"]]],[1,\" \"],[13],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\" Amount -> \"],[13],[1,\" $ \"],[1,[30,0,[\"showAmount\"]]],[1,\" \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"payment\"],[12],[1,\"\\n  \"],[11,\"button\"],[24,4,\"button\"],[4,[38,8],[\"click\",[28,[37,9],[[30,0,[\"payNow\"]],[30,1,[\"movieId\"]],[30,2,[\"theatreId\"]],[30,3,[\"showId\"]]],null]],null],[12],[1,\"\\n  Pay Now\\n\"],[13],[1,\"\\n\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@movie\",\"@theatre\",\"@show\",\"@seats\",\"seat\",\"@showAmount\"],[\"div\",\"h3\",\"p\",\"strong\",\"each\",\"-track-array\",\"if\",\"includes\",\"on\",\"fn\",\"button\"]]",
     "moduleName": "ember-js-project/components/show-seats-dialog.hbs",
     "isStrictMode": false
   });
@@ -198,8 +228,13 @@
       _initializerDefineProperty(this, "movieState", _descriptor4, this);
     }
     async seatsData(showId) {
-      let response = await fetch(`http://localhost:8080/api/v1/seats?showId=${showId}`);
-      this.seatsDataList = await response.json();
+      try {
+        let response = await fetch(`http://localhost:8080/api/v1/seats?showId=${showId}`);
+        this.seatsDataList = await response.json();
+      } catch (err) {
+        this.seatsDataList = [];
+        console.log(`something went wrong ${err}`);
+      }
     }
     selectSeat(seat, price) {
       console.log("Hello");
@@ -208,14 +243,15 @@
         this.unSelectSeat(seat, price);
       } else {
         this.showAmount += price;
-        this.tempSeatsList = [...this.tempSeatsList, seat.seatNumber];
+        this.tempSeatsList.pushObject(seat.seatNumber);
+        // this.tempSeatsList = [...this.tempSeatsList,seat.seatNumber];
         console.log(this.tempSeatsList);
       }
     }
     unSelectSeat(seat, price) {
       console.log("Unselect");
       this.showAmount -= price;
-      this.tempSeatsList = this.tempSeatsList.filter(item => item !== seat.seatNumber);
+      this.tempSeatsList.removeObject(seat.seatNumber);
     }
     async payNow(movieId, theatreId, showId) {
       console.log("Api");
@@ -262,7 +298,7 @@
     enumerable: true,
     writable: true,
     initializer: function () {
-      return [];
+      return (0, _array.A)([]);
     }
   }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "movieState", [_service.service], {
     configurable: true,
@@ -392,6 +428,145 @@
   }, _applyDecoratedDescriptor(_class.prototype, "onClickTheatre", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onClickTheatre"), _class.prototype), _class);
   (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, TheatreCardComponents);
 });
+;define("ember-js-project/components/user-booking-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@ember/template-factory"], function (_exports, _component, _component2, _object, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/object",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  const __COLOCATED_TEMPLATE__ = (0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="modal-backdrop">
+      <div class="modal-content">
+      <h2 class="booking-title">Your Booking History</h2>
+  {{#if  @bookingHistoryData.length}}
+    <table class="booking-table">
+      <thead>
+        <tr>
+          <th>Movie</th>
+          <th>Theatre</th>
+          <th>Seats Count</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each @bookingHistoryData as |booking|}}
+          <tr>
+            <td>{{booking.movieName}}</td>
+            <td>{{booking.theatreName}}</td>
+            <td>{{booking.numberOfSeats}}</td>
+            <td>₹{{booking.amount}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p class="no-bookings">No bookings found.</p>
+  {{/if}}
+      </div>
+  </div>
+  
+  */
+  {
+    "id": "SSvQUZeH",
+    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"booking-title\"],[12],[1,\"Your Booking History\"],[13],[1,\"\\n\"],[41,[30,1,[\"length\"]],[[[1,\"  \"],[10,\"table\"],[14,0,\"booking-table\"],[12],[1,\"\\n    \"],[10,\"thead\"],[12],[1,\"\\n      \"],[10,\"tr\"],[12],[1,\"\\n        \"],[10,\"th\"],[12],[1,\"Movie\"],[13],[1,\"\\n        \"],[10,\"th\"],[12],[1,\"Theatre\"],[13],[1,\"\\n        \"],[10,\"th\"],[12],[1,\"Seats Count\"],[13],[1,\"\\n        \"],[10,\"th\"],[12],[1,\"Amount\"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,\"tbody\"],[12],[1,\"\\n\"],[42,[28,[37,9],[[28,[37,9],[[30,1]],null]],null],null,[[[1,\"        \"],[10,\"tr\"],[12],[1,\"\\n          \"],[10,\"td\"],[12],[1,[30,2,[\"movieName\"]]],[13],[1,\"\\n          \"],[10,\"td\"],[12],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n          \"],[10,\"td\"],[12],[1,[30,2,[\"numberOfSeats\"]]],[13],[1,\"\\n          \"],[10,\"td\"],[12],[1,\"₹\"],[1,[30,2,[\"amount\"]]],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[2]],null],[1,\"    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]],[[[1,\"  \"],[10,2],[14,0,\"no-bookings\"],[12],[1,\"No bookings found.\"],[13],[1,\"\\n\"]],[]]],[1,\"    \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@bookingHistoryData\",\"booking\"],[\"div\",\"h2\",\"if\",\"table\",\"thead\",\"tr\",\"th\",\"tbody\",\"each\",\"-track-array\",\"td\",\"p\"]]",
+    "moduleName": "ember-js-project/components/user-booking-dialog.hbs",
+    "isStrictMode": false
+  });
+  let UserBookingDialogComponents = _exports.default = (_class = class UserBookingDialogComponents extends _component2.default {
+    openBookingHistory() {}
+  }, _applyDecoratedDescriptor(_class.prototype, "openBookingHistory", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openBookingHistory"), _class.prototype), _class);
+  (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, UserBookingDialogComponents);
+});
+;define("ember-js-project/components/user-profile-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@glimmer/tracking", "@ember/template-factory"], function (_exports, _component, _component2, _object, _tracking, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _descriptor2;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/object",0,"@glimmer/tracking",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  const __COLOCATED_TEMPLATE__ = (0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="modal-backdrop">
+    <div class="modal-content">
+      <div class="theatre-info">
+          <h3>User Name : {{@userName}}</h3>
+          <h3>User Mail : {{@userMail}}</h3>
+      </div>
+      <div class="seats-container">
+        <div class="seat available" {{on "click" this.openHistoryDialog}}>
+         Booking History
+        </div>
+        <div class="seat available">
+         Accounts
+        </div>
+        <div class="seat available">
+         Cancel Booking
+        </div>
+      </div>
+      <button type="button" {{on "click" @onClose}} class="dialog-close-btn">Close</button>
+    </div>
+  </div>
+  
+  {{#if this.isUserBookHistoryOpened}}
+  <UserBookingDialog @bookingHistoryData = {{this.bookingHistoryData}} @closeDialog = {{this.closeHistoryDialog}} />
+  {{/if}}
+  */
+  {
+    "id": "XuEZMjxy",
+    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"User Name : \"],[1,[30,1]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"User Mail : \"],[1,[30,2]],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n      \"],[11,0],[24,0,\"seat available\"],[4,[38,2],[\"click\",[30,0,[\"openHistoryDialog\"]]],null],[12],[1,\"\\n       Booking History\\n      \"],[13],[1,\"\\n      \"],[10,0],[14,0,\"seat available\"],[12],[1,\"\\n       Accounts\\n      \"],[13],[1,\"\\n      \"],[10,0],[14,0,\"seat available\"],[12],[1,\"\\n       Cancel Booking\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[11,\"button\"],[24,0,\"dialog-close-btn\"],[24,4,\"button\"],[4,[38,2],[\"click\",[30,3]],null],[12],[1,\"Close\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[41,[30,0,[\"isUserBookHistoryOpened\"]],[[[8,[39,5],null,[[\"@bookingHistoryData\",\"@closeDialog\"],[[30,0,[\"bookingHistoryData\"]],[30,0,[\"closeHistoryDialog\"]]]],null],[1,\"\\n\"]],[]],null]],[\"@userName\",\"@userMail\",\"@onClose\"],[\"div\",\"h3\",\"on\",\"button\",\"if\",\"user-booking-dialog\"]]",
+    "moduleName": "ember-js-project/components/user-profile-dialog.hbs",
+    "isStrictMode": false
+  });
+  let UserProfileDialogComponents = _exports.default = (_class = class UserProfileDialogComponents extends _component2.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "isUserBookHistoryOpened", _descriptor, this);
+      _initializerDefineProperty(this, "bookingHistoryData", _descriptor2, this);
+    }
+    async openHistoryDialog() {
+      try {
+        let response = await fetch('http://localhost:8080/api/v1/booking-history');
+        this.bookingHistoryData = await response.json();
+        this.isUserBookHistoryOpened = true;
+        console.log(this.bookingHistoryData);
+      } catch (error) {
+        this.bookingHistoryData = [];
+        console.log(`Something went wrong ${error}`);
+      }
+    }
+    closeHistoryDialog() {
+      this.isUserBookHistoryOpened = false;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "isUserBookHistoryOpened", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return false;
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "bookingHistoryData", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "openHistoryDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openHistoryDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeHistoryDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeHistoryDialog"), _class.prototype), _class);
+  (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, UserProfileDialogComponents);
+});
 ;define("ember-js-project/components/welcome-page", ["exports", "ember-welcome-page/components/welcome-page"], function (_exports, _welcomePage) {
   "use strict";
 
@@ -405,6 +580,311 @@
     }
   });
   0; //eaimeta@70e063a35619d71f0,"ember-welcome-page/components/welcome-page"eaimeta@70e063a35619d71f
+});
+;define("ember-js-project/controllers/admin", ["exports", "@ember/controller", "@ember/object", "@ember/service"], function (_exports, _controller, _object, _service) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@ember/service"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let AdminController = _exports.default = (_class = class AdminController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "router", _descriptor, this);
+    }
+    goToUploadPage() {
+      console.log('Routing');
+      this.router.transitionTo('admin.movieupload');
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "router", [_service.inject], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _applyDecoratedDescriptor(_class.prototype, "goToUploadPage", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "goToUploadPage"), _class.prototype), _class);
+});
+;define("ember-js-project/controllers/admin/movieupload", ["exports", "@ember/controller", "@ember/object", "@glimmer/tracking"], function (_exports, _controller, _object, _tracking) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@glimmer/tracking"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let AdminMovieuploadController = _exports.default = (_class = class AdminMovieuploadController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "name", _descriptor, this);
+      _initializerDefineProperty(this, "genre", _descriptor2, this);
+      _initializerDefineProperty(this, "language", _descriptor3, this);
+      _initializerDefineProperty(this, "description", _descriptor4, this);
+      _initializerDefineProperty(this, "duration", _descriptor5, this);
+      _initializerDefineProperty(this, "thumbnailFile", _descriptor6, this);
+    }
+    updateName(e) {
+      this.name = e.target.value;
+    }
+    updateGenre(e) {
+      this.genre = e.target.value;
+    }
+    updateLanguage(e) {
+      this.language = e.target.value;
+    }
+    updateDescription(e) {
+      this.description = e.target.value;
+    }
+    updateDuration(e) {
+      this.duration = e.target.value;
+    }
+    handleFileChange(e) {
+      this.thumbnailFile = e.target.files[0];
+    }
+    async uploadMovie(e) {
+      e.preventDefault();
+      let formData = new FormData();
+      formData.append('thumbnail', this.thumbnailFile);
+      formData.append('name', this.name);
+      formData.append('genre', this.genre);
+      formData.append('language', this.language);
+      formData.append('desc', this.description);
+      formData.append('duration', this.duration);
+      try {
+        let response = await fetch('http://localhost:8080/api/v1/upload-movie', {
+          method: 'POST',
+          body: formData
+        });
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
+        alert('Movie uploaded successfully!');
+      } catch (err) {
+        alert('Error uploading movie: ' + err.message);
+      }
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "name", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "genre", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "language", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "description", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, "duration", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, "thumbnailFile", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return null;
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "updateName", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateName"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateGenre", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateGenre"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateLanguage", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateLanguage"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateDescription", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateDescription"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateDuration", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateDuration"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleFileChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleFileChange"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "uploadMovie", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "uploadMovie"), _class.prototype), _class);
+});
+;define("ember-js-project/controllers/admin/showupload", ["exports", "@ember/controller", "@ember/object", "@glimmer/tracking"], function (_exports, _controller, _object, _tracking) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@glimmer/tracking"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let AdminShowuploadController = _exports.default = (_class = class AdminShowuploadController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "showDateTime", _descriptor, this);
+      _initializerDefineProperty(this, "showPrice", _descriptor2, this);
+      _initializerDefineProperty(this, "showSeats", _descriptor3, this);
+      _initializerDefineProperty(this, "movieId", _descriptor4, this);
+      _initializerDefineProperty(this, "theatreId", _descriptor5, this);
+    }
+    updateShowDateTime(e) {
+      this.showDateTime = e.target.value;
+    }
+    updateShowPrice(e) {
+      this.showPrice = e.target.value;
+    }
+    updateShowSeats(e) {
+      this.showSeats = e.target.value;
+    }
+    async uploadShow() {
+      console.log("api call");
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/upload-show', {
+          method: "POST",
+          body: JSON.stringify({
+            showId: 0,
+            movieId: this.movieId,
+            theatreId: this.theatreId,
+            dateTime: this.showDateTime,
+            basePrice: this.showPrice,
+            availableSeat: this.showSeats,
+            title: "",
+            name: "",
+            location: ""
+          })
+        });
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
+        alert('Show uploaded successfully!');
+      } catch (err) {
+        alert(`Something Went wrong ${err}`);
+      }
+    }
+    selectMovie(movieId) {
+      this.movieId = movieId;
+      console.log(movieId);
+    }
+    selectTheatre(theatreId) {
+      this.theatreId = theatreId;
+      console.log(theatreId);
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "showDateTime", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "showPrice", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "showSeats", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "movieId", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 0;
+    }
+  }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, "theatreId", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 0;
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "updateShowDateTime", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateShowDateTime"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateShowPrice", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateShowPrice"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateShowSeats", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateShowSeats"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "uploadShow", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "uploadShow"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "selectMovie", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "selectMovie"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "selectTheatre", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "selectTheatre"), _class.prototype), _class);
+});
+;define("ember-js-project/controllers/admin/theatreupload", ["exports", "@ember/controller", "@ember/object", "@glimmer/tracking"], function (_exports, _controller, _object, _tracking) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _descriptor2;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@glimmer/tracking"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let AdminTheatreuploadController = _exports.default = (_class = class AdminTheatreuploadController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "theatreName", _descriptor, this);
+      _initializerDefineProperty(this, "theatreLocation", _descriptor2, this);
+    }
+    updateTheatreName(e) {
+      this.theatreName = e.target.value;
+    }
+    updateTheatreLocation(e) {
+      this.theatreLocation = e.target.value;
+    }
+    async uploadTheatre(e) {
+      console.log(`hello ${e}`);
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/upload-theatre', {
+          method: 'POST',
+          body: JSON.stringify({
+            theatreId: 0,
+            theatreName: this.theatreName,
+            theatreLocation: this.theatreLocation
+          })
+        });
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
+        alert('Theatre uploaded successfully!');
+      } catch (err) {
+        alert(`Something Went wrong ${err}`);
+      }
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "theatreName", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "theatreLocation", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "updateTheatreName", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateTheatreName"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateTheatreLocation", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateTheatreLocation"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "uploadTheatre", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "uploadTheatre"), _class.prototype), _class);
 });
 ;define("ember-js-project/controllers/login", ["exports", "@ember/controller", "@ember/object", "@glimmer/tracking"], function (_exports, _controller, _object, _tracking) {
   "use strict";
@@ -577,21 +1057,66 @@
     initializer: null
   }), _applyDecoratedDescriptor(_class.prototype, "handleTheatreSelect", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleTheatreSelect"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleShowSelect", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleShowSelect"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeShowDetailsDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeShowDetailsDialog"), _class.prototype), _class);
 });
-;define("ember-js-project/controllers/movies", ["exports", "@ember/controller", "@ember/object"], function (_exports, _controller, _object) {
+;define("ember-js-project/controllers/movies", ["exports", "@ember/controller", "@ember/object", "@glimmer/tracking"], function (_exports, _controller, _object, _tracking) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  var _class;
-  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object"eaimeta@70e063a35619d71f
+  var _class, _descriptor, _descriptor2;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@glimmer/tracking"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
   function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
   let MoviesController = _exports.default = (_class = class MoviesController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "userProfileData", _descriptor, this);
+      _initializerDefineProperty(this, "profileDialog", _descriptor2, this);
+    }
+    openDialog() {
+      this.profileDialog = true;
+    }
+    closeDialog() {
+      this.profileDialog = false;
+    }
     bookTicket(movieId) {
       alert(`Booking movie with ID: ${movieId}`);
     }
-  }, _applyDecoratedDescriptor(_class.prototype, "bookTicket", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "bookTicket"), _class.prototype), _class);
+    async viewProfile() {
+      try {
+        this.profileDialog = true;
+        let response = await fetch('http://localhost:8080/api/v1/user-profile');
+        if (!response.ok) {
+          console.log("Something went wrong");
+        } else {
+          let data = await response.json();
+          this.userProfileData = data;
+          console.log(data);
+        }
+      } catch (e) {
+        console.log(`Something Went Wrong ${e}`);
+      }
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "userProfileData", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return null;
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "profileDialog", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return false;
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "openDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "bookTicket", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "bookTicket"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "viewProfile", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "viewProfile"), _class.prototype), _class);
 });
 ;define("ember-js-project/controllers/signup", ["exports", "@ember/controller", "@ember/object", "@glimmer/tracking"], function (_exports, _controller, _object, _tracking) {
   "use strict";
@@ -757,6 +1282,18 @@
   }
   var _default = _exports.default = (0, _helper.helper)(appVersion);
 });
+;define("ember-js-project/helpers/equals", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = equals;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  function equals(num1, num2) {
+    return num1 === num2;
+  }
+});
 ;define("ember-js-project/helpers/includes", ["exports"], function (_exports) {
   "use strict";
 
@@ -851,7 +1388,74 @@
     this.route('movie', {
       path: '/movie/:title/:id'
     });
+    this.route('admin', function () {
+      this.route('movieupload');
+      this.route('theatreupload');
+      this.route('showupload');
+    });
   });
+});
+;define("ember-js-project/routes/admin", ["exports", "@ember/routing/route"], function (_exports, _route) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route"eaimeta@70e063a35619d71f
+  class AdminRoute extends _route.default {}
+  _exports.default = AdminRoute;
+});
+;define("ember-js-project/routes/admin/movieupload", ["exports", "@ember/routing/route"], function (_exports, _route) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route"eaimeta@70e063a35619d71f
+  class AdminMovieuploadRoute extends _route.default {}
+  _exports.default = AdminMovieuploadRoute;
+});
+;define("ember-js-project/routes/admin/showupload", ["exports", "@ember/routing/route"], function (_exports, _route) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route"eaimeta@70e063a35619d71f
+  class AdminShowuploadRoute extends _route.default {
+    async model() {
+      try {
+        let moviesPromise = fetch('http://localhost:8080/api/v1/movies').then(r => r.json());
+        let theatresPromise = fetch('http://localhost:8080/api/v1/all-theatre').then(r => r.json());
+        let [movies, theatres] = await Promise.all([moviesPromise, theatresPromise]);
+        return {
+          movies,
+          theatres
+        };
+      } catch (err) {
+        console.log(`Something went wrong ${err}`);
+        return {
+          movies: [],
+          theatres: []
+        };
+      }
+    }
+  }
+  _exports.default = AdminShowuploadRoute;
+});
+;define("ember-js-project/routes/admin/theatreupload", ["exports", "@ember/routing/route"], function (_exports, _route) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route"eaimeta@70e063a35619d71f
+  class AdminTheatreuploadRoute extends _route.default {}
+  _exports.default = AdminTheatreuploadRoute;
 });
 ;define("ember-js-project/routes/login", ["exports", "@ember/routing/route"], function (_exports, _route) {
   "use strict";
@@ -875,8 +1479,15 @@
   class MovieRoute extends _route.default {
     async model(params) {
       console.log(params.id);
-      let response = await fetch(`http://localhost:8080/api/v1/movie/${params.id}`);
-      return await response.json();
+      let data = null;
+      try {
+        let response = await fetch(`http://localhost:8080/api/v1/movie/${params.id}`);
+        data = await response.json();
+      } catch (error) {
+        console.log(`error ${error}`);
+        data = null;
+      }
+      return data;
     }
   }
   _exports.default = MovieRoute;
@@ -890,12 +1501,37 @@
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71f0,"@ember/routing/route"eaimeta@70e063a35619d71f
   class MoviesRoute extends _route.default {
+    beforeModel(transition) {
+      console.log(`Route: beforeModel ${transition}`);
+    }
     async model() {
       console.log("Api call");
-      const response = await fetch('http://localhost:8080/api/v1/movies');
-      const data = await response.json();
+      let data = [];
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/movies');
+        data = await response.json();
+      } catch (error) {
+        data = [];
+        console.log(`Seonthing went wrong ${error}`);
+      }
       console.log("Fetched movies:", data);
       return data;
+    }
+    afterModel(resolvedModel, transition) {
+      console.log('Route: afterModel');
+    }
+    setupController(controller, model) {
+      console.log('Route: setupController');
+      super.setupController(controller, model);
+    }
+    activate() {
+      console.log('Route: activate');
+    }
+    deactivate() {
+      console.log('Route: deactivate');
+    }
+    resetController(controller, isExiting, transition) {
+      console.log('Route: resetController');
     }
   }
   _exports.default = MoviesRoute;
@@ -991,6 +1627,257 @@
       available: '4.13'
     }
   }));
+});
+;define("ember-js-project/templates/admin", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    <header class="movie-header">
+    <a href="#" class="movie-logo">Admin Panel</a>
+  
+    <nav class="movie-nav">
+      <LinkTo class = "admin-nav-link" @route = "admin.movieupload">Upload Movie</LinkTo>
+      <LinkTo class = "admin-nav-link" @route = "admin.theatreupload">Upload Theatre</LinkTo>
+      <LinkTo class = "admin-nav-link" @route = "admin.showupload">Upload Shows</LinkTo>
+    </nav>
+  
+    <div class="movie-search-box">
+      <input type="text" placeholder="Search shows..." class="movie-search-input" />
+    </div>
+  
+    <div class="movie-user-icon">
+      <a href="#"><i class="fas fa-user-circle fa-2x"></i></a>
+    </div>
+  </header>
+  
+  <section class="movies-section">
+      {{outlet}}
+  </section>
+  
+  
+  */
+  {
+    "id": "B5oSYr9B",
+    "block": "[[[10,\"header\"],[14,0,\"movie-header\"],[12],[1,\"\\n  \"],[10,3],[14,6,\"#\"],[14,0,\"movie-logo\"],[12],[1,\"Admin Panel\"],[13],[1,\"\\n\\n  \"],[10,\"nav\"],[14,0,\"movie-nav\"],[12],[1,\"\\n    \"],[8,[39,3],[[24,0,\"admin-nav-link\"]],[[\"@route\"],[\"admin.movieupload\"]],[[\"default\"],[[[[1,\"Upload Movie\"]],[]]]]],[1,\"\\n    \"],[8,[39,3],[[24,0,\"admin-nav-link\"]],[[\"@route\"],[\"admin.theatreupload\"]],[[\"default\"],[[[[1,\"Upload Theatre\"]],[]]]]],[1,\"\\n    \"],[8,[39,3],[[24,0,\"admin-nav-link\"]],[[\"@route\"],[\"admin.showupload\"]],[[\"default\"],[[[[1,\"Upload Shows\"]],[]]]]],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"movie-search-box\"],[12],[1,\"\\n    \"],[10,\"input\"],[14,\"placeholder\",\"Search shows...\"],[14,0,\"movie-search-input\"],[14,4,\"text\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"movie-user-icon\"],[12],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[12],[10,\"i\"],[14,0,\"fas fa-user-circle fa-2x\"],[12],[13],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,\"section\"],[14,0,\"movies-section\"],[12],[1,\"\\n    \"],[46,[28,[37,9],null,null],null,null,null],[1,\"\\n\"],[13],[1,\"\\n\\n\"]],[],[\"header\",\"a\",\"nav\",\"link-to\",\"div\",\"input\",\"i\",\"section\",\"component\",\"-outlet\"]]",
+    "moduleName": "ember-js-project/templates/admin.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ember-js-project/templates/admin/movieupload", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="admin-body">
+    <div class="admin-form-container">
+      <h2 class="admin-form-title">Upload New Movie</h2>
+  
+      <div class="admin-form">
+        <label class="admin-label">Thumbnail</label>
+        <input
+          type="file"
+          class="admin-input"
+          {{on "change" this.handleFileChange}}
+          required
+        />
+  
+        <label class="admin-label">Movie Name</label>
+        <input
+          type="text"
+          class="admin-input"
+          value={{this.name}}
+          {{on "input" this.updateName}}
+          required
+        />
+  
+        <label class="admin-label">Genre</label>
+        <input
+          type="text"
+          class="admin-input"
+          value={{this.genre}}
+          {{on "input" this.updateGenre}}
+          required
+        />
+  
+        <label class="admin-label">Language</label>
+        <input
+          type="text"
+          class="admin-input"
+          value={{this.language}}
+          {{on "input" this.updateLanguage}}
+          required
+        />
+  
+        <label class="admin-label">Description</label>
+        <textarea
+          class="admin-textarea"
+          value={{this.description}}
+          {{on "input" this.updateDescription}}
+        ></textarea>
+  
+        <label class="admin-label">Duration (in minutes)</label>
+        <input
+          type="number"
+          class="admin-input"
+          value={{this.duration}}
+          {{on "input" this.updateDuration}}
+          required
+        />
+  
+        <button type="button" class="admin-button" {{on "click" this.uploadMovie}}>
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  */
+  {
+    "id": "qQNfQdJS",
+    "block": "[[[10,0],[14,0,\"admin-body\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"admin-form-container\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"admin-form-title\"],[12],[1,\"Upload New Movie\"],[13],[1,\"\\n\\n    \"],[10,0],[14,0,\"admin-form\"],[12],[1,\"\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Thumbnail\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[24,\"required\",\"\"],[24,4,\"file\"],[4,[38,4],[\"change\",[30,0,[\"handleFileChange\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Movie Name\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"name\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateName\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Genre\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"genre\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateGenre\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Language\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"language\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateLanguage\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Description\"],[13],[1,\"\\n      \"],[11,\"textarea\"],[24,0,\"admin-textarea\"],[16,2,[30,0,[\"description\"]]],[4,[38,4],[\"input\",[30,0,[\"updateDescription\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Duration (in minutes)\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"duration\"]]],[24,\"required\",\"\"],[24,4,\"number\"],[4,[38,4],[\"input\",[30,0,[\"updateDuration\"]]],null],[12],[13],[1,\"\\n\\n      \"],[11,\"button\"],[24,0,\"admin-button\"],[24,4,\"button\"],[4,[38,4],[\"click\",[30,0,[\"uploadMovie\"]]],null],[12],[1,\"\\n        Upload\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[],[\"div\",\"h2\",\"label\",\"input\",\"on\",\"textarea\",\"button\"]]",
+    "moduleName": "ember-js-project/templates/admin/movieupload.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ember-js-project/templates/admin/showupload", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="admin-body">
+    <div class="admin-form-container">
+      <h2 class="admin-form-title">Upload New Show</h2>
+  
+      <div class="admin-form">
+  
+        <label class="admin-label">Show DateTime</label>
+        <input
+          type="datetime-local"
+          class="admin-input"
+          value={{this.showDateTime}}
+          {{on "input" this.updateShowDateTime}}
+          required
+        />
+  
+        <label class="admin-label">Show Price</label>
+        <input
+          type="number"
+          class="admin-input"
+          value={{this.showPrice}}
+          {{on "input" this.updateShowPrice}}
+          required
+        />
+  
+        <label class="admin-label">Show Seats</label>
+        <input
+          type="number"
+          class="admin-input"
+          value={{this.showSeats}}
+          {{on "input" this.updateShowSeats}}
+          required
+        />
+  
+        <label class="admin-label">Select Movie</label>
+        <div class = "chip-container">
+          {{# each @model.movies as |movie|}}
+          <div class = "chip {{if (equals this.movieId movie.movieId) "selected" "unselected"}}"
+           {{on "click" (fn this.selectMovie movie.movieId)}}>
+            {{movie.movieTitle}}</div>
+          {{/each}}
+        </div>
+  
+        <label class="admin-label">Select Theatre</label>
+        <div class = "chip-container">
+          {{# each @model.theatres as |theatre|}}
+          <div class = "chip {{if (equals this.theatreId theatre.theatreId) "selected" "unselected" }}"
+            {{on "click" (fn this.selectTheatre theatre.theatreId)}}>
+              {{theatre.theatreName}}
+          </div>
+          {{/each}}
+        </div>
+  
+  
+        <button type="button" class="admin-button" {{on "click" this.uploadShow }} >
+          Upload Show
+        </button>
+  
+  
+      </div>
+    </div>
+  </div>
+  
+  */
+  {
+    "id": "NZHDDNAw",
+    "block": "[[[10,0],[14,0,\"admin-body\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"admin-form-container\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"admin-form-title\"],[12],[1,\"Upload New Show\"],[13],[1,\"\\n\\n    \"],[10,0],[14,0,\"admin-form\"],[12],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Show DateTime\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"showDateTime\"]]],[24,\"required\",\"\"],[24,4,\"datetime-local\"],[4,[38,4],[\"input\",[30,0,[\"updateShowDateTime\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Show Price\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"showPrice\"]]],[24,\"required\",\"\"],[24,4,\"number\"],[4,[38,4],[\"input\",[30,0,[\"updateShowPrice\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Show Seats\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"showSeats\"]]],[24,\"required\",\"\"],[24,4,\"number\"],[4,[38,4],[\"input\",[30,0,[\"updateShowSeats\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Select Movie\"],[13],[1,\"\\n      \"],[10,0],[14,0,\"chip-container\"],[12],[1,\"\\n\"],[42,[28,[37,6],[[28,[37,6],[[30,1,[\"movies\"]]],null]],null],null,[[[1,\"        \"],[11,0],[16,0,[29,[\"chip \",[52,[28,[37,8],[[30,0,[\"movieId\"]],[30,2,[\"movieId\"]]],null],\"selected\",\"unselected\"]]]],[4,[38,4],[\"click\",[28,[37,9],[[30,0,[\"selectMovie\"]],[30,2,[\"movieId\"]]],null]],null],[12],[1,\"\\n          \"],[1,[30,2,[\"movieTitle\"]]],[13],[1,\"\\n\"]],[2]],null],[1,\"      \"],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Select Theatre\"],[13],[1,\"\\n      \"],[10,0],[14,0,\"chip-container\"],[12],[1,\"\\n\"],[42,[28,[37,6],[[28,[37,6],[[30,1,[\"theatres\"]]],null]],null],null,[[[1,\"        \"],[11,0],[16,0,[29,[\"chip \",[52,[28,[37,8],[[30,0,[\"theatreId\"]],[30,3,[\"theatreId\"]]],null],\"selected\",\"unselected\"]]]],[4,[38,4],[\"click\",[28,[37,9],[[30,0,[\"selectTheatre\"]],[30,3,[\"theatreId\"]]],null]],null],[12],[1,\"\\n            \"],[1,[30,3,[\"theatreName\"]]],[1,\"\\n        \"],[13],[1,\"\\n\"]],[3]],null],[1,\"      \"],[13],[1,\"\\n\\n\\n      \"],[11,\"button\"],[24,0,\"admin-button\"],[24,4,\"button\"],[4,[38,4],[\"click\",[30,0,[\"uploadShow\"]]],null],[12],[1,\"\\n        Upload Show\\n      \"],[13],[1,\"\\n\\n\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@model\",\"movie\",\"theatre\"],[\"div\",\"h2\",\"label\",\"input\",\"on\",\"each\",\"-track-array\",\"if\",\"equals\",\"fn\",\"button\"]]",
+    "moduleName": "ember-js-project/templates/admin/showupload.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ember-js-project/templates/admin/theatreupload", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="admin-body">
+    <div class="admin-form-container">
+      <h2 class="admin-form-title">Upload New Theatre</h2>
+  
+      <div class = "admin-form">
+      <label class="admin-label">Theatre Name</label>
+        <input
+          type="text"
+          class="admin-input"
+          value={{this.theatreName}}
+          {{on "input" this.updateTheatreName}}
+          required
+        />
+  
+        <label class="admin-label">Theatre Location</label>
+        <input
+          type="text"
+          class="admin-input"
+          value={{this.theatreLocation}}
+          {{on "input" this.updateTheatreLocation}}
+          required
+        />
+  
+        <button type="button" class="admin-button" {{on "click" this.uploadTheatre}}>
+          Upload Theatre
+        </button> 
+      </div>
+  
+      </div>
+  </div>
+  
+  */
+  {
+    "id": "QH3MCh/x",
+    "block": "[[[10,0],[14,0,\"admin-body\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"admin-form-container\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"admin-form-title\"],[12],[1,\"Upload New Theatre\"],[13],[1,\"\\n\\n    \"],[10,0],[14,0,\"admin-form\"],[12],[1,\"\\n    \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Theatre Name\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"theatreName\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateTheatreName\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Theatre Location\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"theatreLocation\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateTheatreLocation\"]]],null],[12],[13],[1,\"\\n\\n      \"],[11,\"button\"],[24,0,\"admin-button\"],[24,4,\"button\"],[4,[38,4],[\"click\",[30,0,[\"uploadTheatre\"]]],null],[12],[1,\"\\n        Upload Theatre\\n      \"],[13],[1,\" \\n    \"],[13],[1,\"\\n\\n    \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[],[\"div\",\"h2\",\"label\",\"input\",\"on\",\"button\"]]",
+    "moduleName": "ember-js-project/templates/admin/theatreupload.hbs",
+    "isStrictMode": false
+  });
 });
 ;define("ember-js-project/templates/application", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
   "use strict";
@@ -1139,8 +2026,8 @@
       <input type="text" placeholder="Search shows..." class="movie-search-input" />
     </div>
   
-    <div class="movie-user-icon">
-      <a href="#"><i class="fas fa-user-circle fa-2x"></i></a>
+    <div class="movie-user-icon" {{on "click" this.viewProfile }}>
+      <i class="fas fa-user-circle fa-2x"></i>
     </div>
   </header>
   
@@ -1152,10 +2039,14 @@
       {{/each}}
     </div>
   </section>
+  
+  {{#if this.profileDialog}}
+  <UserProfileDialog @userName = {{this.userProfileData.name}} @userMail = {{this.userProfileData.gmail}} @onClose = {{this.closeDialog}} />
+  {{/if}}
   */
   {
-    "id": "0VaJkL90",
-    "block": "[[[1,\"\\n\\n\"],[10,\"header\"],[14,0,\"movie-header\"],[12],[1,\"\\n  \"],[10,3],[14,6,\"#\"],[14,0,\"movie-logo\"],[12],[1,\"BookMyShow\"],[13],[1,\"\\n\\n  \"],[10,\"nav\"],[14,0,\"movie-nav\"],[12],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Home\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Shows\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Book Tickets\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Contact\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"movie-search-box\"],[12],[1,\"\\n    \"],[10,\"input\"],[14,\"placeholder\",\"Search shows...\"],[14,0,\"movie-search-input\"],[14,4,\"text\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"movie-user-icon\"],[12],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[12],[10,\"i\"],[14,0,\"fas fa-user-circle fa-2x\"],[12],[13],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,\"section\"],[14,0,\"movies-section\"],[12],[1,\"\\n  \"],[10,\"h2\"],[14,0,\"movies-section-title\"],[12],[1,\"Now Showing\"],[13],[1,\"\\n  \"],[10,0],[14,0,\"movie-grid\"],[12],[1,\"\\n\"],[42,[28,[37,9],[[28,[37,9],[[30,1]],null]],null],null,[[[1,\"        \"],[8,[39,10],null,[[\"@movie\"],[[30,2]]],null],[1,\"\\n\"]],[2]],null],[1,\"  \"],[13],[1,\"\\n\"],[13]],[\"@model\",\"movie\"],[\"header\",\"a\",\"nav\",\"div\",\"input\",\"i\",\"section\",\"h2\",\"each\",\"-track-array\",\"movie-card\"]]",
+    "id": "NvtAgF9M",
+    "block": "[[[1,\"\\n\\n\"],[10,\"header\"],[14,0,\"movie-header\"],[12],[1,\"\\n  \"],[10,3],[14,6,\"#\"],[14,0,\"movie-logo\"],[12],[1,\"BookMyShow\"],[13],[1,\"\\n\\n  \"],[10,\"nav\"],[14,0,\"movie-nav\"],[12],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Home\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Shows\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Book Tickets\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Contact\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"movie-search-box\"],[12],[1,\"\\n    \"],[10,\"input\"],[14,\"placeholder\",\"Search shows...\"],[14,0,\"movie-search-input\"],[14,4,\"text\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[11,0],[24,0,\"movie-user-icon\"],[4,[38,5],[\"click\",[30,0,[\"viewProfile\"]]],null],[12],[1,\"\\n    \"],[10,\"i\"],[14,0,\"fas fa-user-circle fa-2x\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,\"section\"],[14,0,\"movies-section\"],[12],[1,\"\\n  \"],[10,\"h2\"],[14,0,\"movies-section-title\"],[12],[1,\"Now Showing\"],[13],[1,\"\\n  \"],[10,0],[14,0,\"movie-grid\"],[12],[1,\"\\n\"],[42,[28,[37,10],[[28,[37,10],[[30,1]],null]],null],null,[[[1,\"        \"],[8,[39,11],null,[[\"@movie\"],[[30,2]]],null],[1,\"\\n\"]],[2]],null],[1,\"  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[41,[30,0,[\"profileDialog\"]],[[[8,[39,13],null,[[\"@userName\",\"@userMail\",\"@onClose\"],[[30,0,[\"userProfileData\",\"name\"]],[30,0,[\"userProfileData\",\"gmail\"]],[30,0,[\"closeDialog\"]]]],null],[1,\"\\n\"]],[]],null]],[\"@model\",\"movie\"],[\"header\",\"a\",\"nav\",\"div\",\"input\",\"on\",\"i\",\"section\",\"h2\",\"each\",\"-track-array\",\"movie-card\",\"if\",\"user-profile-dialog\"]]",
     "moduleName": "ember-js-project/templates/movies.hbs",
     "isStrictMode": false
   });

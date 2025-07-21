@@ -22,10 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const result = await response.json();
 
-      if (result.status === 'success') {
+      if (result.status === 'success' && result.userType === 'Admin'){
+        alert(`Admin Signup successful! ${result.adminUid}`);
+        window.location.href = '/dashboard#/admin';
+      }else if (result.status === 'success') {
         alert(`Signup successful! User ID: ${result.userUid}`);
         window.location.href = '/dashboard#/movies';
-      } else {
+      }
+      else {
         alert(`Signup failed: ${result.message}`);
       }
     } catch (error) {

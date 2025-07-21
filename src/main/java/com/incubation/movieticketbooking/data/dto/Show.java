@@ -2,6 +2,8 @@ package com.incubation.movieticketbooking.data.dto;
 
 public class Show {
     private int showId;
+    private int movieId;
+    private int theatreId;
     private String dateTime;
     private int basePrice;
     private int availableSeat;
@@ -9,14 +11,32 @@ public class Show {
     private String name;
     private String location;
 
-    public Show(int showId, String dateTime, int basePrice, int availableSeat, String title, String name, String location) {
+    public Show(int showId, int movieId, int theatreId, String dateTime, int basePrice, int availableSeat, String title, String name, String location) {
         this.showId = showId;
+        this.movieId = movieId;
+        this.theatreId = theatreId;
         this.dateTime = dateTime;
         this.basePrice = basePrice;
         this.availableSeat = availableSeat;
         this.title = title;
         this.name = name;
         this.location = location;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
+    public int getTheatreId() {
+        return theatreId;
+    }
+
+    public void setTheatreId(int theatreId) {
+        this.theatreId = theatreId;
     }
 
     public int getShowId() {

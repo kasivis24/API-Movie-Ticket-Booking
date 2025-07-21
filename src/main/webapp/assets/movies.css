@@ -10,6 +10,20 @@ body {
   line-height: 1.6;
 }
 
+
+
+.profilecontainer {
+  padding: 10px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #202020;
+}
+
+.profilecontainer.color {
+  background-color: #a3c4a3;
+}
+
 .movie-header {
   background-color: #1c1c1c;
   color: #fff;

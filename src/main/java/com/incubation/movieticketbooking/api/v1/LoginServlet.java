@@ -29,9 +29,13 @@ public class LoginServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
+        System.out.println("Login Profile");
+
         BufferedReader reader = req.getReader();
         StringBuilder sb = new StringBuilder();
+        
         String line;
+
         while ((line = reader.readLine()) != null) {
             sb.append(line);
         }
@@ -49,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 //        HttpSession session = req.getSession(false);
 
         try {
-            if (email != null && password != null && !email.isEmpty() && !password.isEmpty()){
+            if ((email != null && password != null && !email.isEmpty() && !password.isEmpty()) && !email.contains("admin")){
                 if (appDb.loginVerify(new LoginInfo(email,password))){
                     String userUid = appDb.getUserUid(email);
                     Cookie authCookie = new Cookie("userToken",userUid);
@@ -59,10 +63,23 @@ public class LoginServlet extends HttpServlet {
                     resp.addCookie(authCookie);
 //                    session.setAttribute("userToken",userUid);
                     out.print("{\"status\":\"success\",\"message\":\"User Login successfully\", \"userUid\": \"" + userUid + "\"}");
+                } else {
+                    out.print("{\"status\":\"error\",\"message\":\"Email already exists\"}");
+                }
+            } else if ((email != null && password != null && !email.isEmpty() && !password.isEmpty()) && email.contains("admin")) {
+                if (appDb.loginVerifyAdmin(new LoginInfo(email,password))){
+                    System.out.println("it is login page successfully bu admin ");
+                    String adminUid = appDb.getAdminUid(email);
+                    Cookie authCookie = new Cookie("adminToken",adminUid);
+                    authCookie.setHttpOnly(true);
+                    authCookie.setMaxAge(60 * 60);
+                    authCookie.setPath("/");
+                    resp.addCookie(authCookie);
+                    out.print("{\"status\":\"success\",\"message\":\"Admin Login successfully\", \"adminUid\": \"" + adminUid + "\", \"userType\": \"Admin\"}");
                 }else {
                     out.print("{\"status\":\"error\",\"message\":\"Email already exists\"}");
                 }
-            }else {
+            } else {
                 out.print("{\"status\":\"error\",\"message\":\"Email already exists\"}");
             }
         } catch (SQLException e) {

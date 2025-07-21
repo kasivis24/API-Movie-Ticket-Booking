@@ -248,6 +248,112 @@ define("ember-js-project/tests/integration/components/theatre-card-test", ["quni
     });
   });
 });
+define("ember-js-project/tests/integration/components/user-booking-dialog-test", ["qunit", "ember-js-project/tests/helpers", "@ember/test-helpers", "@ember/template-factory"], function (_qunit, _helpers, _testHelpers, _templateFactory) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers",0,"@ember/test-helpers",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Integration | Component | user-booking-dialog', function (hooks) {
+    (0, _helpers.setupRenderingTest)(hooks);
+    (0, _qunit.test)('it renders', async function (assert) {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.set('myAction', function(val) { ... });
+
+      await (0, _testHelpers.render)((0, _templateFactory.createTemplateFactory)(
+      /*
+        <UserBookingDialog />
+      */
+      {
+        "id": "JixgWluz",
+        "block": "[[[8,[39,0],null,null,null]],[],[\"user-booking-dialog\"]]",
+        "moduleName": "D:\\zsgs\\DSA\\EmberJSProject\\EmberJsProject\\ember-js-project\\tests\\integration\\components\\user-booking-dialog-test.js",
+        "isStrictMode": false
+      }));
+      assert.dom().hasText('');
+
+      // Template block usage:
+      await (0, _testHelpers.render)((0, _templateFactory.createTemplateFactory)(
+      /*
+        
+            <UserBookingDialog>
+              template block text
+            </UserBookingDialog>
+          
+      */
+      {
+        "id": "ejiWdi3A",
+        "block": "[[[1,\"\\n      \"],[8,[39,0],null,null,[[\"default\"],[[[[1,\"\\n        template block text\\n      \"]],[]]]]],[1,\"\\n    \"]],[],[\"user-booking-dialog\"]]",
+        "moduleName": "D:\\zsgs\\DSA\\EmberJSProject\\EmberJsProject\\ember-js-project\\tests\\integration\\components\\user-booking-dialog-test.js",
+        "isStrictMode": false
+      }));
+      assert.dom().hasText('template block text');
+    });
+  });
+});
+define("ember-js-project/tests/integration/components/user-profile-dialog-test", ["qunit", "ember-js-project/tests/helpers", "@ember/test-helpers", "@ember/template-factory"], function (_qunit, _helpers, _testHelpers, _templateFactory) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers",0,"@ember/test-helpers",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Integration | Component | user-profile-dialog', function (hooks) {
+    (0, _helpers.setupRenderingTest)(hooks);
+    (0, _qunit.test)('it renders', async function (assert) {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.set('myAction', function(val) { ... });
+
+      await (0, _testHelpers.render)((0, _templateFactory.createTemplateFactory)(
+      /*
+        <UserProfileDialog />
+      */
+      {
+        "id": "YzjwCzyR",
+        "block": "[[[8,[39,0],null,null,null]],[],[\"user-profile-dialog\"]]",
+        "moduleName": "D:\\zsgs\\DSA\\EmberJSProject\\EmberJsProject\\ember-js-project\\tests\\integration\\components\\user-profile-dialog-test.js",
+        "isStrictMode": false
+      }));
+      assert.dom().hasText('');
+
+      // Template block usage:
+      await (0, _testHelpers.render)((0, _templateFactory.createTemplateFactory)(
+      /*
+        
+            <UserProfileDialog>
+              template block text
+            </UserProfileDialog>
+          
+      */
+      {
+        "id": "sm2WFrLM",
+        "block": "[[[1,\"\\n      \"],[8,[39,0],null,null,[[\"default\"],[[[[1,\"\\n        template block text\\n      \"]],[]]]]],[1,\"\\n    \"]],[],[\"user-profile-dialog\"]]",
+        "moduleName": "D:\\zsgs\\DSA\\EmberJSProject\\EmberJsProject\\ember-js-project\\tests\\integration\\components\\user-profile-dialog-test.js",
+        "isStrictMode": false
+      }));
+      assert.dom().hasText('template block text');
+    });
+  });
+});
+define("ember-js-project/tests/integration/helpers/equals-test", ["qunit", "ember-js-project/tests/helpers", "@ember/test-helpers", "@ember/template-factory"], function (_qunit, _helpers, _testHelpers, _templateFactory) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers",0,"@ember/test-helpers",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Integration | Helper | equals', function (hooks) {
+    (0, _helpers.setupRenderingTest)(hooks);
+
+    // TODO: Replace this with your real tests.
+    (0, _qunit.test)('it renders', async function (assert) {
+      this.set('inputValue', '1234');
+      await (0, _testHelpers.render)((0, _templateFactory.createTemplateFactory)(
+      /*
+        {{equals this.inputValue}}
+      */
+      {
+        "id": "oRjVH6P3",
+        "block": "[[[1,[28,[35,0],[[30,0,[\"inputValue\"]]],null]]],[],[\"equals\"]]",
+        "moduleName": "D:\\zsgs\\DSA\\EmberJSProject\\EmberJsProject\\ember-js-project\\tests\\integration\\helpers\\equals-test.js",
+        "isStrictMode": false
+      }));
+      assert.dom().hasText('1234');
+    });
+  });
+});
 define("ember-js-project/tests/integration/helpers/includes-test", ["qunit", "ember-js-project/tests/helpers", "@ember/test-helpers", "@ember/template-factory"], function (_qunit, _helpers, _testHelpers, _templateFactory) {
   "use strict";
 
@@ -281,6 +387,124 @@ define("ember-js-project/tests/test-helper", ["ember-js-project/app", "ember-js-
   (0, _emberQunit.setupEmberOnerrorValidation)();
   (0, _testLoader.loadTests)();
   (0, _emberQunit.start)();
+});
+define("ember-js-project/tests/unit/adapters/application-test", ["ember-js-project/tests/helpers", "qunit"], function (_helpers, _qunit) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"ember-js-project/tests/helpers",0,"qunit"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Adapter | application', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+
+    // Replace this with your real tests.
+    (0, _qunit.test)('it exists', function (assert) {
+      const adapter = this.owner.lookup('adapter:application');
+      assert.ok(adapter, 'adapter exists');
+    });
+  });
+});
+define("ember-js-project/tests/unit/controllers/admin-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Controller | admin', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+
+    // TODO: Replace this with your real tests.
+    (0, _qunit.test)('it exists', function (assert) {
+      let controller = this.owner.lookup('controller:admin');
+      assert.ok(controller);
+    });
+  });
+});
+define("ember-js-project/tests/unit/controllers/admin/movieupload-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Controller | admin/movieupload', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+
+    // TODO: Replace this with your real tests.
+    (0, _qunit.test)('it exists', function (assert) {
+      let controller = this.owner.lookup('controller:admin/movieupload');
+      assert.ok(controller);
+    });
+  });
+});
+define("ember-js-project/tests/unit/controllers/admin/showupload-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Controller | admin/showupload', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+
+    // TODO: Replace this with your real tests.
+    (0, _qunit.test)('it exists', function (assert) {
+      let controller = this.owner.lookup('controller:admin/showupload');
+      assert.ok(controller);
+    });
+  });
+});
+define("ember-js-project/tests/unit/controllers/admin/theatreupload-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Controller | admin/theatreupload', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+
+    // TODO: Replace this with your real tests.
+    (0, _qunit.test)('it exists', function (assert) {
+      let controller = this.owner.lookup('controller:admin/theatreupload');
+      assert.ok(controller);
+    });
+  });
+});
+define("ember-js-project/tests/unit/routes/admin-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Route | admin', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+    (0, _qunit.test)('it exists', function (assert) {
+      let route = this.owner.lookup('route:admin');
+      assert.ok(route);
+    });
+  });
+});
+define("ember-js-project/tests/unit/routes/admin/movieupload-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Route | admin/movieupload', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+    (0, _qunit.test)('it exists', function (assert) {
+      let route = this.owner.lookup('route:admin/movieupload');
+      assert.ok(route);
+    });
+  });
+});
+define("ember-js-project/tests/unit/routes/admin/showupload-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Route | admin/showupload', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+    (0, _qunit.test)('it exists', function (assert) {
+      let route = this.owner.lookup('route:admin/showupload');
+      assert.ok(route);
+    });
+  });
+});
+define("ember-js-project/tests/unit/routes/admin/theatreupload-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Route | admin/theatreupload', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+    (0, _qunit.test)('it exists', function (assert) {
+      let route = this.owner.lookup('route:admin/theatreupload');
+      assert.ok(route);
+    });
+  });
 });
 define("ember-js-project/tests/unit/routes/login-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
   "use strict";

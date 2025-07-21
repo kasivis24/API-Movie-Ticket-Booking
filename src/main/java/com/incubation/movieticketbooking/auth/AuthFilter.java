@@ -18,8 +18,9 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse)  servletResponse;
 
+        System.out.println("Filtering");
 
-        if (Utils.isAuthenticatedPerson(req.getCookies())){
+        if (Utils.isAuthenticatedPerson(req.getCookies()) || Utils.isAuthenticatedAdmin(req.getCookies())){
             filterChain.doFilter(req,res);
         }else {
             res.sendRedirect( "/html/login.html");
