@@ -29,7 +29,6 @@ public class ShowsServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
 
         String movieIdParam = req.getParameter("movieId");
         String theatreIdParam = req.getParameter("theatreId");

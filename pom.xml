@@ -42,6 +42,14 @@
           <version>0.4</version>
       </dependency>
 
+      <!-- pom.xml -->
+      <dependency>
+          <groupId>redis.clients</groupId>
+          <artifactId>jedis</artifactId>
+          <version>4.4.3</version>
+      </dependency>
+
+
   </dependencies>
   <build>
     <finalName>API-Movie-Ticket-Booking</finalName>

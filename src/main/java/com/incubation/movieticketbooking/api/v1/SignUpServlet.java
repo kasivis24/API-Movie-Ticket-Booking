@@ -22,25 +22,14 @@ public class SignUpServlet extends HttpServlet {
     private final AppDb appDb = AppDb.getInstance();
 
     public SignUpServlet() throws SQLException {
-        super();
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("get caled");
-        BufferedReader reader = req.getReader();
-        StringBuilder sb = new StringBuilder();
 
-//        HttpSession session = req.getSession(false);
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
-        }
-        String json = sb.toString();
-
-        UserInfo data = new Gson().fromJson(json, UserInfo.class);
+        UserInfo data = new Gson().fromJson(req.getReader(), UserInfo.class);
 
         PrintWriter out = resp.getWriter();
 
@@ -50,7 +39,6 @@ public class SignUpServlet extends HttpServlet {
         String userUid = UUID.randomUUID().toString();
 
         resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
         System.out.println(name);
         System.out.println(email);
 
@@ -80,7 +68,7 @@ public class SignUpServlet extends HttpServlet {
                 }else {
                     out.print("{\"status\":\"error\",\"message\":\"Email already exists\"}");
                 }
-            }else {
+            } else {
                 out.print("{\"status\":\"error\",\"message\":\"Email already exists\"}");
             }
         } catch (SQLException e) {

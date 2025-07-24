@@ -43,6 +43,47 @@ define("ember-js-project/tests/helpers/index", ["exports", "ember-qunit"], funct
     // Additional setup for unit tests can be done here.
   }
 });
+define("ember-js-project/tests/integration/components/booking-card-test", ["qunit", "ember-js-project/tests/helpers", "@ember/test-helpers", "@ember/template-factory"], function (_qunit, _helpers, _testHelpers, _templateFactory) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers",0,"@ember/test-helpers",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Integration | Component | booking-card', function (hooks) {
+    (0, _helpers.setupRenderingTest)(hooks);
+    (0, _qunit.test)('it renders', async function (assert) {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.set('myAction', function(val) { ... });
+
+      await (0, _testHelpers.render)((0, _templateFactory.createTemplateFactory)(
+      /*
+        <BookingCard />
+      */
+      {
+        "id": "HDCrLYRE",
+        "block": "[[[8,[39,0],null,null,null]],[],[\"booking-card\"]]",
+        "moduleName": "D:\\zsgs\\DSA\\EmberJSProject\\EmberJsProject\\ember-js-project\\tests\\integration\\components\\booking-card-test.js",
+        "isStrictMode": false
+      }));
+      assert.dom().hasText('');
+
+      // Template block usage:
+      await (0, _testHelpers.render)((0, _templateFactory.createTemplateFactory)(
+      /*
+        
+            <BookingCard>
+              template block text
+            </BookingCard>
+          
+      */
+      {
+        "id": "2aExsoh0",
+        "block": "[[[1,\"\\n      \"],[8,[39,0],null,null,[[\"default\"],[[[[1,\"\\n        template block text\\n      \"]],[]]]]],[1,\"\\n    \"]],[],[\"booking-card\"]]",
+        "moduleName": "D:\\zsgs\\DSA\\EmberJSProject\\EmberJsProject\\ember-js-project\\tests\\integration\\components\\booking-card-test.js",
+        "isStrictMode": false
+      }));
+      assert.dom().hasText('template block text');
+    });
+  });
+});
 define("ember-js-project/tests/integration/components/movie-card-test", ["qunit", "ember-js-project/tests/helpers", "@ember/test-helpers", "@ember/template-factory"], function (_qunit, _helpers, _testHelpers, _templateFactory) {
   "use strict";
 
@@ -502,6 +543,18 @@ define("ember-js-project/tests/unit/routes/admin/theatreupload-test", ["qunit", 
     (0, _helpers.setupTest)(hooks);
     (0, _qunit.test)('it exists', function (assert) {
       let route = this.owner.lookup('route:admin/theatreupload');
+      assert.ok(route);
+    });
+  });
+});
+define("ember-js-project/tests/unit/routes/bookinghistory-test", ["qunit", "ember-js-project/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"ember-js-project/tests/helpers"eaimeta@70e063a35619d71f
+  (0, _qunit.module)('Unit | Route | bookinghistory', function (hooks) {
+    (0, _helpers.setupTest)(hooks);
+    (0, _qunit.test)('it exists', function (assert) {
+      let route = this.owner.lookup('route:bookinghistory');
       assert.ok(route);
     });
   });

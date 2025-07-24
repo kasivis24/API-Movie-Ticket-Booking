@@ -6,13 +6,15 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AppDb {
+
     private static AppDb instance = null;
     private static Connection conn;
+    private static final ConcurrentHashMap<String, Object> seatLocks = new ConcurrentHashMap<>();
+
 
     private AppDb() throws SQLException {
         try {
@@ -26,6 +28,7 @@ public class AppDb {
         }
 
     }
+
 
     public static AppDb getInstance() throws SQLException {
         if (instance == null) instance = new AppDb();
@@ -57,22 +60,22 @@ public class AppDb {
         List<BookingHistory> bookingHistoryList = new ArrayList<>();
 
         PreparedStatement preparedStatement = conn.prepareStatement(query);
-        preparedStatement.setString(1,userUid);
+        preparedStatement.setString(1, userUid);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        while (resultSet.next()){
+        while (resultSet.next()) {
             String movieName = resultSet.getString("movie_name");
             String theatreName = resultSet.getString("theatre_name");
             int numberOfSeats = resultSet.getInt("no_of_seats");
             int amount = resultSet.getInt("total_amount");
 
-            bookingHistoryList.add(new BookingHistory(movieName,theatreName,numberOfSeats,amount));
+            bookingHistoryList.add(new BookingHistory(movieName, theatreName, numberOfSeats, amount));
         }
         return bookingHistoryList;
     }
 
-    public boolean uploadShow (Show show) throws SQLException {
+    public boolean uploadShow(Show show) throws SQLException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int showId = 0;
@@ -81,31 +84,33 @@ public class AppDb {
 
             conn.setAutoCommit(false);
             String query = "INSERT INTO shows (movie_id,theatre_id,show_time,base_price,available_seats) VALUES (?, ?, ?, ?, ?)";
-            stmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            stmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            stmt.setInt(1,show.getMovieId());
-            stmt.setInt(2,show.getTheatreId());
-            stmt.setString(3,show.getDateTime());
-            stmt.setInt(4,show.getBasePrice());
-            stmt.setInt(5,show.getAvailableSeat());
+            stmt.setInt(1, show.getMovieId());
+            stmt.setInt(2, show.getTheatreId());
+            stmt.setString(3, show.getDateTime());
+            stmt.setInt(4, show.getBasePrice());
+            stmt.setInt(5, show.getAvailableSeat());
 
             stmt.executeUpdate();
 
             rs = stmt.getGeneratedKeys();
 
-            if (rs.next()){
+            if (rs.next()) {
                 showId = rs.getInt(1);
             }
+
             rs.close();
             stmt.close();
 
             String queryFillSeats = "INSERT INTO Seats (show_id, seat_number, price, is_booked) VALUES (?, ?, ?, ?)";
             stmt = conn.prepareStatement(queryFillSeats);
+
             for (int i = 1; i <= show.getAvailableSeat(); i++) {
-                stmt.setInt(1,showId);
-                stmt.setString(2,""+i);
-                stmt.setInt(3,show.getBasePrice());
-                stmt.setBoolean(4,false);
+                stmt.setInt(1, showId);
+                stmt.setString(2, "" + i);
+                stmt.setInt(3, show.getBasePrice());
+                stmt.setInt(4, 2);
                 stmt.addBatch();
             }
 
@@ -114,10 +119,10 @@ public class AppDb {
 
             conn.commit();
 
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             conn.rollback();
             return false;
-        }finally {
+        } finally {
             if (stmt != null) stmt.close();
             conn.setAutoCommit(true);
         }
@@ -125,13 +130,13 @@ public class AppDb {
         return true;
     }
 
-    public boolean uploadTheatre (Theatre theatre) throws SQLException {
+    public boolean uploadTheatre(Theatre theatre) throws SQLException {
         String query = "INSERT INTO theatres (name , location) VALUES (?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(query);
 
-        statement.setString(1,theatre.getTheatreName());
-        statement.setString(2,theatre.getTheatreLocation());
+        statement.setString(1, theatre.getTheatreName());
+        statement.setString(2, theatre.getTheatreLocation());
 
         statement.executeUpdate();
 
@@ -140,18 +145,18 @@ public class AppDb {
     }
 
 
-    public boolean uploadMovie (Movie movie) throws SQLException {
+    public boolean uploadMovie(Movie movie) throws SQLException {
 
 
         String query = "INSERT INTO movies (title, genre, duration, language, description, image_url) VALUES (?, ?, ?, ?, ?, ?)";
 
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1,movie.getMovieTitle());
-        stmt.setString(2,movie.getMovieGenre());
-        stmt.setInt(3,movie.getDuration());
-        stmt.setString(4,movie.getMovieLang());
-        stmt.setString(5,movie.getMovieDesc());
-        stmt.setString(6,movie.getMovieThumbnail());
+        stmt.setString(1, movie.getMovieTitle());
+        stmt.setString(2, movie.getMovieGenre());
+        stmt.setInt(3, movie.getDuration());
+        stmt.setString(4, movie.getMovieLang());
+        stmt.setString(5, movie.getMovieDesc());
+        stmt.setString(6, movie.getMovieThumbnail());
         stmt.executeUpdate();
 
 
@@ -173,7 +178,7 @@ public class AppDb {
         return "";
     }
 
-    public boolean loginVerifyAdmin(LoginInfo loginInfo) throws  SQLException{
+    public boolean loginVerifyAdmin(LoginInfo loginInfo) throws SQLException {
         String sql = "SELECT * FROM adminData WHERE adminMail = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, loginInfo.getEmail());
@@ -198,17 +203,17 @@ public class AppDb {
     }
 
 
-    public boolean addAdminData(String adminUid,String adminName,String adminMail,String adminPassword) throws SQLException {
+    public boolean addAdminData(String adminUid, String adminName, String adminMail, String adminPassword) throws SQLException {
 
         String hashedPassword = BCrypt.hashpw(adminPassword, BCrypt.gensalt(12));
 
         String query = "INSERT INTO adminData (adminUid, adminName, adminMail, adminPassword) VALUES (?, ?, ?, ?)";
 
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1,adminUid);
-        stmt.setString(2,adminName);
-        stmt.setString(3,adminMail);
-        stmt.setString(4,hashedPassword);
+        stmt.setString(1, adminUid);
+        stmt.setString(2, adminName);
+        stmt.setString(3, adminMail);
+        stmt.setString(4, hashedPassword);
         stmt.executeUpdate();
 
 
@@ -216,25 +221,129 @@ public class AppDb {
 
     }
 
+    public boolean isAvailable(int showId, int seatNumber) {
+        String checkIsAvailableQuery = "SELECT * FROM Seats WHERE show_id = ? AND seat_number = ?";
+
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(checkIsAvailableQuery);
+            preparedStatement.setInt(1, showId);
+            preparedStatement.setInt(2, seatNumber);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String seatStatus = resultSet.getString("is_booked");
+                switch (seatStatus) {
+                    case "Available":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+        return false;
+    }
 
 
-    public static boolean payNow(String userUid, int movieId, int theaterId, int showId, List<String> seatNames) throws SQLException {
+
+    /*
+    public boolean selectSeat(int showId, int seatNumber) {
+
+        String seatKey = showId + "-" + seatNumber;
+        seatLocks.putIfAbsent(seatKey, new Object());
+
+        synchronized (seatLocks.get(seatKey)) {
+            try {
+                String selectQuery = "SELECT is_booked FROM Seats WHERE show_id = ? AND seat_number = ?";
+                PreparedStatement selectStmt = conn.prepareStatement(selectQuery);
+                selectStmt.setInt(1, showId);
+                selectStmt.setInt(2, seatNumber);
+                ResultSet rs = selectStmt.executeQuery();
+
+                if (rs.next()) {
+                    String status = rs.getString("is_booked");
+
+                    if (status.equals("Available")) {
+                        String updateQuery = "UPDATE Seats SET is_booked = 'TempNotAvailable' WHERE show_id = ? AND seat_number = ?";
+                        PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
+                        updateStmt.setInt(1, showId);
+                        updateStmt.setInt(2, seatNumber);
+                        updateStmt.executeUpdate();
+                        startTimeoutToReleaseSeat(showId, seatNumber);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private void startTimeoutToReleaseSeat(int showId, int seatNumber) {
+
+        new Thread(() -> {
+            try {
+
+                /// Must Have to pay this time
+
+                Thread.sleep(10000);
+                String checkQuery = "SELECT is_booked FROM Seats WHERE show_id = ? AND seat_number = ?";
+                PreparedStatement checkStmt = conn.prepareStatement(checkQuery);
+                checkStmt.setInt(1, showId);
+                checkStmt.setInt(2, seatNumber);
+                ResultSet rs = checkStmt.executeQuery();
+
+                if (rs.next() && rs.getString("is_booked").equals("TempNotAvailable")) {
+                    String revertQuery = "UPDATE Seats SET is_booked = 'Available' WHERE show_id = ? AND seat_number = ?";
+                    PreparedStatement revertStmt = conn.prepareStatement(revertQuery);
+                    revertStmt.setInt(1, showId);
+                    revertStmt.setInt(2, seatNumber);
+                    revertStmt.executeUpdate();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+     */
+
+    public boolean payNow(String userUid, int movieId, int theaterId, int showId, List<String> seatNames) throws SQLException {
+
+        List<String> sortedSeats = new ArrayList<>(seatNames);
+        Collections.sort(sortedSeats);
+        String seatKey = showId + "-" + String.join("-", sortedSeats);
+
+        Object lock = seatLocks.computeIfAbsent(seatKey, k -> new Object());
+
+        synchronized (lock) {
+            try {
+                return performBooking(userUid, movieId, theaterId, showId, sortedSeats);
+            } finally {
+                seatLocks.remove(seatKey);
+            }
+        }
+    }
+
+
+    private boolean performBooking(String userUid, int movieId, int theaterId, int showId, List<String> seatNames) throws SQLException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int bookingId = 0;
-        int seatCount = seatNames.size();
         int totalPrice = 0;
         List<Integer> seatIds = new ArrayList<>();
-//        userUid = "8fd0efd1-58d3-4670-bf65-9cacc0b85887";
 
         try {
-            // Start transaction
             conn.setAutoCommit(false);
 
-            // 1. Convert seatNames -> seatIds
             String placeholders = String.join(",", Collections.nCopies(seatNames.size(), "?"));
-            String query = "SELECT seat_id, price FROM Seats WHERE show_id = ? AND seat_number IN (" + placeholders + ")";
-            stmt = conn.prepareStatement(query);
+            String selectQuery = "SELECT seat_id, price, is_booked FROM Seats WHERE show_id = ? AND seat_number IN (" + placeholders + ") FOR UPDATE";
+            stmt = conn.prepareStatement(selectQuery);
             stmt.setInt(1, showId);
             for (int i = 0; i < seatNames.size(); i++) {
                 stmt.setString(i + 2, seatNames.get(i));
@@ -242,18 +351,25 @@ public class AppDb {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
+                String status = rs.getString("is_booked");
+                if (!status.equalsIgnoreCase("Available")) {
+                    conn.rollback();
+                    System.out.println("One or more seats are already booked or temp unavailable.");
+                    return false;
+                }
                 seatIds.add(rs.getInt("seat_id"));
                 totalPrice += rs.getInt("price");
             }
 
             if (seatIds.size() != seatNames.size()) {
+                conn.rollback();
+                System.out.println("Some seat numbers not found.");
                 return false;
             }
 
             rs.close();
             stmt.close();
 
-            // 2. Insert into Bookings
             String insertBooking = "INSERT INTO Bookings (userUid) VALUES (?)";
             stmt = conn.prepareStatement(insertBooking, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, userUid);
@@ -265,18 +381,16 @@ public class AppDb {
             rs.close();
             stmt.close();
 
-            // 3. Insert into BookingDetails
             String insertDetails = "INSERT INTO BookingDetails (booking_id, theater_id, movie_id, seat_count, price) VALUES (?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(insertDetails);
             stmt.setInt(1, bookingId);
             stmt.setInt(2, theaterId);
             stmt.setInt(3, movieId);
-            stmt.setInt(4, seatCount);
+            stmt.setInt(4, seatNames.size());
             stmt.setInt(5, totalPrice);
             stmt.executeUpdate();
             stmt.close();
 
-            // 4. Insert into SeatAllotment
             String insertAllotment = "INSERT INTO SeatAllotment (booking_id, seat_id) VALUES (?, ?)";
             stmt = conn.prepareStatement(insertAllotment);
             for (int seatId : seatIds) {
@@ -287,9 +401,8 @@ public class AppDb {
             stmt.executeBatch();
             stmt.close();
 
-            // 5. Update Seats to mark as booked
-            String seatIdPlaceholders = String.join(",", Collections.nCopies(seatIds.size(), "?"));
-            String updateSeats = "UPDATE Seats SET is_booked = TRUE WHERE seat_id IN (" + seatIdPlaceholders + ")";
+            String updatePlaceholders = String.join(",", Collections.nCopies(seatIds.size(), "?"));
+            String updateSeats = "UPDATE Seats SET is_booked = 'Booked' WHERE seat_id IN (" + updatePlaceholders + ")";
             stmt = conn.prepareStatement(updateSeats);
             for (int i = 0; i < seatIds.size(); i++) {
                 stmt.setInt(i + 1, seatIds.get(i));
@@ -298,26 +411,26 @@ public class AppDb {
             stmt.close();
 
             conn.commit();
-            System.out.println("Booking successful. Booking ID: " + bookingId);
+            System.out.println("✅ Booking successful. Booking ID: " + bookingId);
+            return true;
 
         } catch (SQLException ex) {
             conn.rollback();
-            System.err.println("Transaction failed. Rolling back. Error: " + ex.getMessage());
+            System.err.println("❌ Booking failed. Rolled back. Error: " + ex.getMessage());
             return false;
         } finally {
             if (stmt != null) stmt.close();
             conn.setAutoCommit(true);
         }
-
-        return true;
     }
+
 
     public List<Seat> getSeats(int showId) throws SQLException {
 
-        String getTotalSeatQuery =  "SELECT " +
+        String getTotalSeatQuery = "SELECT " +
                 "COUNT(*) AS total_seats, " +
-                "SUM(CASE WHEN is_booked = TRUE THEN 1 ELSE 0 END) AS booked_seats, " +
-                "SUM(CASE WHEN is_booked = FALSE THEN 1 ELSE 0 END) AS unbooked_seats " +
+                "SUM(CASE WHEN is_booked = 1 THEN 1 ELSE 0 END) AS booked_seats, " +
+                "SUM(CASE WHEN is_booked = 2 THEN 1 ELSE 0 END) AS unbooked_seats " +
                 "FROM Seats " +
                 "WHERE show_id = ?";
 
@@ -330,24 +443,25 @@ public class AppDb {
         PreparedStatement totalPrepareStatement = conn.prepareStatement(getTotalSeatQuery);
         PreparedStatement seatsDetailsPrepareStatement = conn.prepareStatement(seatDetailsQuery);
 
-        totalPrepareStatement.setInt(1,showId);
-        seatsDetailsPrepareStatement.setInt(1,showId);
+        totalPrepareStatement.setInt(1, showId);
+        seatsDetailsPrepareStatement.setInt(1, showId);
 
         ResultSet rsTotal = totalPrepareStatement.executeQuery();
         ResultSet rsSeatDetails = seatsDetailsPrepareStatement.executeQuery();
 
         int seatCount = 0;
 
-        while (rsTotal.next()){
+        while (rsTotal.next()) {
             seatCount = rsTotal.getInt("total_seats");
         }
 
         System.out.println(seatCount);
 
-        List<Seat> seatList = new ArrayList<>(Collections.nCopies(seatCount,null));
+        List<Seat> seatList = new ArrayList<>(Collections.nCopies(seatCount, null));
 
-        while (rsSeatDetails.next()){
-            seatList.set(Integer.valueOf(rsSeatDetails.getString("seat_number"))-1,new Seat(rsSeatDetails.getInt("seat_id"),rsSeatDetails.getString("seat_number"),rsSeatDetails.getInt("is_booked")));
+        while (rsSeatDetails.next()) {
+            String status = rsSeatDetails.getString("is_booked");
+            seatList.set(Integer.valueOf(rsSeatDetails.getString("seat_number")) - 1, new Seat(rsSeatDetails.getInt("seat_id"), rsSeatDetails.getString("seat_number"), status.equals("Available") ? 2 : status.equals("Booked") ? 1 : 3));
         }
 
         return seatList;
@@ -370,8 +484,8 @@ public class AppDb {
         PreparedStatement preparedStatementForMovie = conn.prepareStatement(movieQuery);
         PreparedStatement preparedStatementForTheatre = conn.prepareStatement(theatreQuery);
 
-        preparedStatementForMovie.setInt(1,movieId);
-        preparedStatementForTheatre.setInt(1,movieId);
+        preparedStatementForMovie.setInt(1, movieId);
+        preparedStatementForTheatre.setInt(1, movieId);
 
 
         ResultSet rsMovie = preparedStatementForMovie.executeQuery();
@@ -380,7 +494,7 @@ public class AppDb {
         System.out.println(movieId);
 
 
-        while(rsMovie.next()){
+        while (rsMovie.next()) {
             int showId = rsMovie.getInt("movie_id");
             String movieName = rsMovie.getString("title");
             String movieGenre = rsMovie.getString("genre");
@@ -388,15 +502,15 @@ public class AppDb {
             String movieThumbnail = rsMovie.getString("image_url");
             String movieLang = rsMovie.getString("language");
             String movieDesc = rsMovie.getString("description");
-            movie = new Movie(showId, movieName, movieGenre, movieDuration, movieThumbnail,movieLang, movieDesc);
+            movie = new Movie(showId, movieName, movieGenre, movieDuration, movieThumbnail, movieLang, movieDesc);
         }
 
-        while (rsTheatre.next()){
-            Theatre theatre = new Theatre(rsTheatre.getInt("theatre_id"),rsTheatre.getString("name"),rsTheatre.getString("location"));
+        while (rsTheatre.next()) {
+            Theatre theatre = new Theatre(rsTheatre.getInt("theatre_id"), rsTheatre.getString("name"), rsTheatre.getString("location"));
             theatreList.add(theatre);
         }
 
-        return new MovieTheatreMapping(movie,theatreList);
+        return new MovieTheatreMapping(movie, theatreList);
     }
 
 
@@ -408,18 +522,18 @@ public class AppDb {
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                int showId = rs.getInt("movie_id");
-                String movieName = rs.getString("title");
-                String movieGenre = rs.getString("genre");
-                int movieDuration = rs.getInt("duration");
-                String movieThumbnail = rs.getString("image_url");
-                String movieLang = rs.getString("language");
-                String movieDesc = rs.getString("description");
+        while (rs.next()) {
+            int showId = rs.getInt("movie_id");
+            String movieName = rs.getString("title");
+            String movieGenre = rs.getString("genre");
+            int movieDuration = rs.getInt("duration");
+            String movieThumbnail = rs.getString("image_url");
+            String movieLang = rs.getString("language");
+            String movieDesc = rs.getString("description");
 
-                Movie show = new Movie(showId, movieName, movieGenre, movieDuration, movieThumbnail,movieLang, movieDesc);
-                showList.add(show);
-            }
+            Movie show = new Movie(showId, movieName, movieGenre, movieDuration, movieThumbnail, movieLang, movieDesc);
+            showList.add(show);
+        }
 
         return showList;
     }
@@ -431,14 +545,14 @@ public class AppDb {
         String sql = "INSERT INTO movieUserData (userUid, username, email, password) VALUES (?, ?, ?, ?)";
 
         PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1,userData.getUserUid());
-        stmt.setString(2,userData.getName());
-        stmt.setString(3,userData.getEmail());
-        stmt.setString(4,hashedPassword);
+        stmt.setString(1, userData.getUserUid());
+        stmt.setString(2, userData.getName());
+        stmt.setString(3, userData.getEmail());
+        stmt.setString(4, hashedPassword);
         stmt.executeUpdate();
     }
 
-    public boolean loginVerify(LoginInfo loginInfo) throws  SQLException{
+    public boolean loginVerify(LoginInfo loginInfo) throws SQLException {
         String sql = "SELECT * FROM movieUserData WHERE email = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, loginInfo.getEmail());
@@ -483,12 +597,12 @@ public class AppDb {
         ResultSet rs = stmt.executeQuery();
         UserProfileInfo userProfileInfo = null;
         if (rs.next()) {
-            userProfileInfo = new UserProfileInfo(rs.getString("username"),rs.getString("email"));
+            userProfileInfo = new UserProfileInfo(rs.getString("username"), rs.getString("email"));
         }
         return userProfileInfo;
     }
 
-    public List<Show> getShowsByTheatre(int movieId,int theatreId) throws SQLException {
+    public List<Show> getShowsByTheatre(int movieId, int theatreId) throws SQLException {
 
         List<Show> showList = new ArrayList<>();
 
@@ -507,11 +621,12 @@ public class AppDb {
 
 
         PreparedStatement preparedStatement = conn.prepareStatement(query);
-        preparedStatement.setInt(1,movieId);
-        preparedStatement.setInt(2,theatreId);
+        preparedStatement.setInt(1, movieId);
+        preparedStatement.setInt(2, theatreId);
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        while (resultSet.next()){
+        while (resultSet.next()) {
+
             int showId = resultSet.getInt("show_id");
             Timestamp showTime = resultSet.getTimestamp("show_time");
             double basePrice = resultSet.getDouble("base_price");
@@ -521,7 +636,7 @@ public class AppDb {
             String location = resultSet.getString("location");
 
             LocalDateTime showDateTime = showTime.toLocalDateTime();
-            showList.add(new Show(showId,movieId,theatreId,showDateTime.toString(),(int) basePrice,availableSeats,movieTitle,theatreName,location));
+            showList.add(new Show(showId, movieId, theatreId, showDateTime.toString(), (int) basePrice, availableSeats, movieTitle, theatreName, location));
         }
 
 
@@ -540,7 +655,7 @@ public class AppDb {
             int theatreId = resultSet.getInt("theatre_id");
             String name = resultSet.getString("name");
             String location = resultSet.getString("location");
-            theatreList.add(new Theatre(theatreId,name,location));
+            theatreList.add(new Theatre(theatreId, name, location));
         }
 
         statement.close();

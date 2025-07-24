@@ -30,18 +30,13 @@ public class MovieUploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        request.setCharacterEncoding("UTF-8");
 
         try {
-            String appPath = request.getServletContext().getRealPath("");
-            String uploadPath = appPath + File.separator + UPLOAD_DIR;
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) uploadDir.mkdir();
 
             Part filePart = request.getPart("thumbnail");
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            String savedFilePath = uploadPath + File.separator + fileName;
-            filePart.write(savedFilePath);
+
+
 
             System.out.println(fileName);
 
@@ -56,7 +51,6 @@ public class MovieUploadServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
 
             System.out.println("Uploaded: " + name + ", " + genre + ", " + language);
-            System.out.println("Saved image path: " + savedFilePath);
 
             response.setContentType("application/json");
 

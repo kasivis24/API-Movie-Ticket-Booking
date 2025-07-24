@@ -26,12 +26,11 @@ public class BookingHistoryServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         PrintWriter out = resp.getWriter();
 
         resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
 
         String userUid = Utils.getAuthToken(req.getCookies());
 

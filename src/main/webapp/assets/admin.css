@@ -1,0 +1,61 @@
+.admin-form-container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgb(0 0 0 / 10%);
+}
+
+.admin-nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.admin-form-title {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #444;
+}
+
+.admin-input,
+.admin-textarea {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.admin-textarea {
+    resize: vertical;
+}
+
+.admin-button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-button:hover {
+    background-color: #0056b3;
+}

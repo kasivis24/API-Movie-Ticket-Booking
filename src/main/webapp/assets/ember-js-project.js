@@ -47,6 +47,35 @@
   _exports.default = App;
   (0, _emberLoadInitializers.default)(App, _environment.default.modulePrefix);
 });
+;define("ember-js-project/components/booking-card", ["exports", "@ember/component", "@ember/component/template-only", "@ember/template-factory"], function (_exports, _component, _templateOnly, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/component/template-only",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
+  const __COLOCATED_TEMPLATE__ = (0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="theatre-card">
+      <div class="theatre-info">
+          <h4>Movie Name -> {{@booking.movieName}}</h4>
+          <p>Thetare name -> {{@booking.theatreName}}</p>
+          <p>Number of Seats -> {{@booking.numberOfSeats}}</p>
+          <p>Total Amount -> {{@booking.amount}}</p>
+      </div>
+      <button class="book-btn" type="submit">View Details</button>
+  </div>
+  
+  */
+  {
+    "id": "LWwLdTdT",
+    "block": "[[[10,0],[14,0,\"theatre-card\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h4\"],[12],[1,\"Movie Name -> \"],[1,[30,1,[\"movieName\"]]],[13],[1,\"\\n        \"],[10,2],[12],[1,\"Thetare name -> \"],[1,[30,1,[\"theatreName\"]]],[13],[1,\"\\n        \"],[10,2],[12],[1,\"Number of Seats -> \"],[1,[30,1,[\"numberOfSeats\"]]],[13],[1,\"\\n        \"],[10,2],[12],[1,\"Total Amount -> \"],[1,[30,1,[\"amount\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,\"button\"],[14,0,\"book-btn\"],[14,4,\"submit\"],[12],[1,\"View Details\"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@booking\"],[\"div\",\"h4\",\"p\",\"button\"]]",
+    "moduleName": "ember-js-project/components/booking-card.hbs",
+    "isStrictMode": false
+  });
+  var _default = _exports.default = (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, (0, _templateOnly.default)(undefined, "booking-card"));
+});
 ;define("ember-js-project/components/movie-card", ["exports", "@ember/component", "@glimmer/component", "@ember/service", "@ember/object", "@glimmer/tracking", "@ember/template-factory"], function (_exports, _component, _component2, _service, _object, _tracking, _templateFactory) {
   "use strict";
 
@@ -178,7 +207,7 @@
   
   <div class="seats-container">
     {{#each @seats as |seat|}}
-      {{#if seat.isBooked}}
+      {{#if (equals seat.isBooked 1) }}
         <div 
           class="seat booked"
         >
@@ -194,6 +223,7 @@
       {{/if}}
     {{/each}}
   </div>
+  
   
   
   <div class="theatre-info">
@@ -214,8 +244,8 @@
   
   */
   {
-    "id": "94nW5N2T",
-    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Movie name: \"],[1,[30,1,[\"movieTitle\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Theatre name : \"],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Show Details\"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Date & Time\"],[13],[1,[30,3,[\"dateTime\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Price\"],[13],[1,[30,3,[\"basePrice\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Available Seat\"],[13],[1,[30,3,[\"availableSeat\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n\"],[42,[28,[37,5],[[28,[37,5],[[30,4]],null]],null],null,[[[41,[30,5,[\"isBooked\"]],[[[1,\"      \"],[10,0],[14,0,\"seat booked\"],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],[[[1,\"      \"],[11,0],[16,0,[29,[\"seat \",[52,[28,[37,7],[[30,0,[\"tempSeatsList\"]],[30,5,[\"seatNumber\"]]],null],\"tempBooked\",\"available\"]]]],[4,[38,8],[\"click\",[28,[37,9],[[30,0,[\"selectSeat\"]],[30,5],[30,6]],null]],null],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]]]],[5]],null],[13],[1,\"\\n\\n\\n\"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Total Seats Selected -> \"],[13],[1,\" \"],[1,[30,0,[\"tempSeatsList\",\"length\"]]],[1,\" \"],[13],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\" Amount -> \"],[13],[1,\" $ \"],[1,[30,0,[\"showAmount\"]]],[1,\" \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"payment\"],[12],[1,\"\\n  \"],[11,\"button\"],[24,4,\"button\"],[4,[38,8],[\"click\",[28,[37,9],[[30,0,[\"payNow\"]],[30,1,[\"movieId\"]],[30,2,[\"theatreId\"]],[30,3,[\"showId\"]]],null]],null],[12],[1,\"\\n  Pay Now\\n\"],[13],[1,\"\\n\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@movie\",\"@theatre\",\"@show\",\"@seats\",\"seat\",\"@showAmount\"],[\"div\",\"h3\",\"p\",\"strong\",\"each\",\"-track-array\",\"if\",\"includes\",\"on\",\"fn\",\"button\"]]",
+    "id": "0j+A6btT",
+    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Movie name: \"],[1,[30,1,[\"movieTitle\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Theatre name : \"],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"Show Details\"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Date & Time\"],[13],[1,[30,3,[\"dateTime\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Price\"],[13],[1,[30,3,[\"basePrice\"]]],[13],[1,\"\\n        \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Available Seat\"],[13],[1,[30,3,[\"availableSeat\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n\"],[42,[28,[37,5],[[28,[37,5],[[30,4]],null]],null],null,[[[41,[28,[37,7],[[30,5,[\"isBooked\"]],1],null],[[[1,\"      \"],[10,0],[14,0,\"seat booked\"],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],[[[1,\"      \"],[11,0],[16,0,[29,[\"seat \",[52,[28,[37,8],[[30,0,[\"tempSeatsList\"]],[30,5,[\"seatNumber\"]]],null],\"tempBooked\",\"available\"]]]],[4,[38,9],[\"click\",[28,[37,10],[[30,0,[\"selectSeat\"]],[30,5],[30,6]],null]],null],[12],[1,\"\\n        \"],[1,[30,5,[\"seatNumber\"]]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]]]],[5]],null],[13],[1,\"\\n\\n\\n\\n\"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Total Seats Selected -> \"],[13],[1,\" \"],[1,[30,0,[\"tempSeatsList\",\"length\"]]],[1,\" \"],[13],[1,\"\\n    \"],[10,2],[12],[10,\"strong\"],[12],[1,\" Amount -> \"],[13],[1,\" $ \"],[1,[30,0,[\"showAmount\"]]],[1,\" \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,0],[14,0,\"payment\"],[12],[1,\"\\n  \"],[11,\"button\"],[24,4,\"button\"],[4,[38,9],[\"click\",[28,[37,10],[[30,0,[\"payNow\"]],[30,1,[\"movieId\"]],[30,2,[\"theatreId\"]],[30,3,[\"showId\"]]],null]],null],[12],[1,\"\\n  Pay Now\\n\"],[13],[1,\"\\n\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@movie\",\"@theatre\",\"@show\",\"@seats\",\"seat\",\"@showAmount\"],[\"div\",\"h3\",\"p\",\"strong\",\"each\",\"-track-array\",\"if\",\"equals\",\"includes\",\"on\",\"fn\",\"button\"]]",
     "moduleName": "ember-js-project/components/show-seats-dialog.hbs",
     "isStrictMode": false
   });
@@ -442,38 +472,13 @@
   /*
     <div class="modal-backdrop">
       <div class="modal-content">
-      <h2 class="booking-title">Your Booking History</h2>
-  {{#if  @bookingHistoryData.length}}
-    <table class="booking-table">
-      <thead>
-        <tr>
-          <th>Movie</th>
-          <th>Theatre</th>
-          <th>Seats Count</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each @bookingHistoryData as |booking|}}
-          <tr>
-            <td>{{booking.movieName}}</td>
-            <td>{{booking.theatreName}}</td>
-            <td>{{booking.numberOfSeats}}</td>
-            <td>₹{{booking.amount}}</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  {{else}}
-    <p class="no-bookings">No bookings found.</p>
-  {{/if}}
+  
       </div>
   </div>
-  
   */
   {
-    "id": "SSvQUZeH",
-    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"booking-title\"],[12],[1,\"Your Booking History\"],[13],[1,\"\\n\"],[41,[30,1,[\"length\"]],[[[1,\"  \"],[10,\"table\"],[14,0,\"booking-table\"],[12],[1,\"\\n    \"],[10,\"thead\"],[12],[1,\"\\n      \"],[10,\"tr\"],[12],[1,\"\\n        \"],[10,\"th\"],[12],[1,\"Movie\"],[13],[1,\"\\n        \"],[10,\"th\"],[12],[1,\"Theatre\"],[13],[1,\"\\n        \"],[10,\"th\"],[12],[1,\"Seats Count\"],[13],[1,\"\\n        \"],[10,\"th\"],[12],[1,\"Amount\"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,\"tbody\"],[12],[1,\"\\n\"],[42,[28,[37,9],[[28,[37,9],[[30,1]],null]],null],null,[[[1,\"        \"],[10,\"tr\"],[12],[1,\"\\n          \"],[10,\"td\"],[12],[1,[30,2,[\"movieName\"]]],[13],[1,\"\\n          \"],[10,\"td\"],[12],[1,[30,2,[\"theatreName\"]]],[13],[1,\"\\n          \"],[10,\"td\"],[12],[1,[30,2,[\"numberOfSeats\"]]],[13],[1,\"\\n          \"],[10,\"td\"],[12],[1,\"₹\"],[1,[30,2,[\"amount\"]]],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[2]],null],[1,\"    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]],[[[1,\"  \"],[10,2],[14,0,\"no-bookings\"],[12],[1,\"No bookings found.\"],[13],[1,\"\\n\"]],[]]],[1,\"    \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@bookingHistoryData\",\"booking\"],[\"div\",\"h2\",\"if\",\"table\",\"thead\",\"tr\",\"th\",\"tbody\",\"each\",\"-track-array\",\"td\",\"p\"]]",
+    "id": "wvKvLi8n",
+    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n\\n    \"],[13],[1,\"\\n\"],[13]],[],[\"div\"]]",
     "moduleName": "ember-js-project/components/user-booking-dialog.hbs",
     "isStrictMode": false
   });
@@ -482,15 +487,15 @@
   }, _applyDecoratedDescriptor(_class.prototype, "openBookingHistory", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openBookingHistory"), _class.prototype), _class);
   (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, UserBookingDialogComponents);
 });
-;define("ember-js-project/components/user-profile-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@glimmer/tracking", "@ember/template-factory"], function (_exports, _component, _component2, _object, _tracking, _templateFactory) {
+;define("ember-js-project/components/user-profile-dialog", ["exports", "@ember/component", "@glimmer/component", "@ember/object", "@glimmer/tracking", "@ember/service", "@ember/template-factory"], function (_exports, _component, _component2, _object, _tracking, _service, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  var _class, _descriptor, _descriptor2;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/object",0,"@glimmer/tracking",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
+  var _class, _descriptor, _descriptor2, _descriptor3;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@ember/object",0,"@glimmer/tracking",0,"@ember/service",0,"@ember/template-factory",0,"@ember/component"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -506,7 +511,7 @@
           <h3>User Mail : {{@userMail}}</h3>
       </div>
       <div class="seats-container">
-        <div class="seat available" {{on "click" this.openHistoryDialog}}>
+        <div class="seat available" {{on "click" this.bookinghistory}}>
          Booking History
         </div>
         <div class="seat available">
@@ -520,13 +525,10 @@
     </div>
   </div>
   
-  {{#if this.isUserBookHistoryOpened}}
-  <UserBookingDialog @bookingHistoryData = {{this.bookingHistoryData}} @closeDialog = {{this.closeHistoryDialog}} />
-  {{/if}}
   */
   {
-    "id": "XuEZMjxy",
-    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"User Name : \"],[1,[30,1]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"User Mail : \"],[1,[30,2]],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n      \"],[11,0],[24,0,\"seat available\"],[4,[38,2],[\"click\",[30,0,[\"openHistoryDialog\"]]],null],[12],[1,\"\\n       Booking History\\n      \"],[13],[1,\"\\n      \"],[10,0],[14,0,\"seat available\"],[12],[1,\"\\n       Accounts\\n      \"],[13],[1,\"\\n      \"],[10,0],[14,0,\"seat available\"],[12],[1,\"\\n       Cancel Booking\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[11,\"button\"],[24,0,\"dialog-close-btn\"],[24,4,\"button\"],[4,[38,2],[\"click\",[30,3]],null],[12],[1,\"Close\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[41,[30,0,[\"isUserBookHistoryOpened\"]],[[[8,[39,5],null,[[\"@bookingHistoryData\",\"@closeDialog\"],[[30,0,[\"bookingHistoryData\"]],[30,0,[\"closeHistoryDialog\"]]]],null],[1,\"\\n\"]],[]],null]],[\"@userName\",\"@userMail\",\"@onClose\"],[\"div\",\"h3\",\"on\",\"button\",\"if\",\"user-booking-dialog\"]]",
+    "id": "dpsjYlK4",
+    "block": "[[[10,0],[14,0,\"modal-backdrop\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"modal-content\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"theatre-info\"],[12],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"User Name : \"],[1,[30,1]],[13],[1,\"\\n        \"],[10,\"h3\"],[12],[1,\"User Mail : \"],[1,[30,2]],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"seats-container\"],[12],[1,\"\\n      \"],[11,0],[24,0,\"seat available\"],[4,[38,2],[\"click\",[30,0,[\"bookinghistory\"]]],null],[12],[1,\"\\n       Booking History\\n      \"],[13],[1,\"\\n      \"],[10,0],[14,0,\"seat available\"],[12],[1,\"\\n       Accounts\\n      \"],[13],[1,\"\\n      \"],[10,0],[14,0,\"seat available\"],[12],[1,\"\\n       Cancel Booking\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n    \"],[11,\"button\"],[24,0,\"dialog-close-btn\"],[24,4,\"button\"],[4,[38,2],[\"click\",[30,3]],null],[12],[1,\"Close\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@userName\",\"@userMail\",\"@onClose\"],[\"div\",\"h3\",\"on\",\"button\"]]",
     "moduleName": "ember-js-project/components/user-profile-dialog.hbs",
     "isStrictMode": false
   });
@@ -534,21 +536,14 @@
     constructor(...args) {
       super(...args);
       _initializerDefineProperty(this, "isUserBookHistoryOpened", _descriptor, this);
-      _initializerDefineProperty(this, "bookingHistoryData", _descriptor2, this);
-    }
-    async openHistoryDialog() {
-      try {
-        let response = await fetch('http://localhost:8080/api/v1/booking-history');
-        this.bookingHistoryData = await response.json();
-        this.isUserBookHistoryOpened = true;
-        console.log(this.bookingHistoryData);
-      } catch (error) {
-        this.bookingHistoryData = [];
-        console.log(`Something went wrong ${error}`);
-      }
+      _initializerDefineProperty(this, "data", _descriptor2, this);
+      _initializerDefineProperty(this, "router", _descriptor3, this);
     }
     closeHistoryDialog() {
       this.isUserBookHistoryOpened = false;
+    }
+    bookinghistory() {
+      this.router.transitionTo('bookinghistory');
     }
   }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "isUserBookHistoryOpened", [_tracking.tracked], {
     configurable: true,
@@ -557,14 +552,19 @@
     initializer: function () {
       return false;
     }
-  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "bookingHistoryData", [_tracking.tracked], {
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "data", [_tracking.tracked], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function () {
-      return [];
+      return '';
     }
-  }), _applyDecoratedDescriptor(_class.prototype, "openHistoryDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openHistoryDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeHistoryDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeHistoryDialog"), _class.prototype), _class);
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "router", [_service.service], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _applyDecoratedDescriptor(_class.prototype, "closeHistoryDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeHistoryDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "bookinghistory", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "bookinghistory"), _class.prototype), _class);
   (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, UserProfileDialogComponents);
 });
 ;define("ember-js-project/components/welcome-page", ["exports", "ember-welcome-page/components/welcome-page"], function (_exports, _welcomePage) {
@@ -1078,6 +1078,9 @@
       _initializerDefineProperty(this, "userProfileData", _descriptor, this);
       _initializerDefineProperty(this, "profileDialog", _descriptor2, this);
     }
+    summa() {
+      console.log("Hello");
+    }
     openDialog() {
       this.profileDialog = true;
     }
@@ -1116,7 +1119,7 @@
     initializer: function () {
       return false;
     }
-  }), _applyDecoratedDescriptor(_class.prototype, "openDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "bookTicket", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "bookTicket"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "viewProfile", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "viewProfile"), _class.prototype), _class);
+  }), _applyDecoratedDescriptor(_class.prototype, "summa", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "summa"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "openDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeDialog", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeDialog"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "bookTicket", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "bookTicket"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "viewProfile", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "viewProfile"), _class.prototype), _class);
 });
 ;define("ember-js-project/controllers/signup", ["exports", "@ember/controller", "@ember/object", "@glimmer/tracking"], function (_exports, _controller, _object, _tracking) {
   "use strict";
@@ -1291,6 +1294,8 @@
   _exports.default = equals;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   function equals(num1, num2) {
+    console.log(`num1 ${num1}`);
+    console.log(`num2 ${num2}`);
     return num1 === num2;
   }
 });
@@ -1393,6 +1398,7 @@
       this.route('theatreupload');
       this.route('showupload');
     });
+    this.route('bookinghistory');
   });
 });
 ;define("ember-js-project/routes/admin", ["exports", "@ember/routing/route"], function (_exports, _route) {
@@ -1429,7 +1435,9 @@
     async model() {
       try {
         let moviesPromise = fetch('http://localhost:8080/api/v1/movies').then(r => r.json());
+        console.log(moviesPromise);
         let theatresPromise = fetch('http://localhost:8080/api/v1/all-theatre').then(r => r.json());
+        console.log(theatresPromise);
         let [movies, theatres] = await Promise.all([moviesPromise, theatresPromise]);
         return {
           movies,
@@ -1456,6 +1464,29 @@
   0; //eaimeta@70e063a35619d71f0,"@ember/routing/route"eaimeta@70e063a35619d71f
   class AdminTheatreuploadRoute extends _route.default {}
   _exports.default = AdminTheatreuploadRoute;
+});
+;define("ember-js-project/routes/bookinghistory", ["exports", "@ember/routing/route"], function (_exports, _route) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route"eaimeta@70e063a35619d71f
+  class BookinghistoryRoute extends _route.default {
+    async model() {
+      let data = [];
+      try {
+        let response = await fetch('http://localhost:8080/api/v1/booking-history');
+        data = await response.json();
+      } catch (error) {
+        data = [];
+        console.log(`something wen twrong ${error}`);
+      }
+      return data;
+    }
+  }
+  _exports.default = BookinghistoryRoute;
 });
 ;define("ember-js-project/routes/login", ["exports", "@ember/routing/route"], function (_exports, _route) {
   "use strict";
@@ -1509,7 +1540,9 @@
       let data = [];
       try {
         const response = await fetch('http://localhost:8080/api/v1/movies');
+        console.log(response);
         data = await response.json();
+        console.log(data);
       } catch (error) {
         data = [];
         console.log(`Seonthing went wrong ${error}`);
@@ -1865,7 +1898,7 @@
   
         <button type="button" class="admin-button" {{on "click" this.uploadTheatre}}>
           Upload Theatre
-        </button> 
+        </button>   
       </div>
   
       </div>
@@ -1873,8 +1906,8 @@
   
   */
   {
-    "id": "QH3MCh/x",
-    "block": "[[[10,0],[14,0,\"admin-body\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"admin-form-container\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"admin-form-title\"],[12],[1,\"Upload New Theatre\"],[13],[1,\"\\n\\n    \"],[10,0],[14,0,\"admin-form\"],[12],[1,\"\\n    \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Theatre Name\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"theatreName\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateTheatreName\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Theatre Location\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"theatreLocation\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateTheatreLocation\"]]],null],[12],[13],[1,\"\\n\\n      \"],[11,\"button\"],[24,0,\"admin-button\"],[24,4,\"button\"],[4,[38,4],[\"click\",[30,0,[\"uploadTheatre\"]]],null],[12],[1,\"\\n        Upload Theatre\\n      \"],[13],[1,\" \\n    \"],[13],[1,\"\\n\\n    \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[],[\"div\",\"h2\",\"label\",\"input\",\"on\",\"button\"]]",
+    "id": "vNtNIlBB",
+    "block": "[[[10,0],[14,0,\"admin-body\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"admin-form-container\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"admin-form-title\"],[12],[1,\"Upload New Theatre\"],[13],[1,\"\\n\\n    \"],[10,0],[14,0,\"admin-form\"],[12],[1,\"\\n    \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Theatre Name\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"theatreName\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateTheatreName\"]]],null],[12],[13],[1,\"\\n\\n      \"],[10,\"label\"],[14,0,\"admin-label\"],[12],[1,\"Theatre Location\"],[13],[1,\"\\n      \"],[11,\"input\"],[24,0,\"admin-input\"],[16,2,[30,0,[\"theatreLocation\"]]],[24,\"required\",\"\"],[24,4,\"text\"],[4,[38,4],[\"input\",[30,0,[\"updateTheatreLocation\"]]],null],[12],[13],[1,\"\\n\\n      \"],[11,\"button\"],[24,0,\"admin-button\"],[24,4,\"button\"],[4,[38,4],[\"click\",[30,0,[\"uploadTheatre\"]]],null],[12],[1,\"\\n        Upload Theatre\\n      \"],[13],[1,\"   \\n    \"],[13],[1,\"\\n\\n    \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[],[\"div\",\"h2\",\"label\",\"input\",\"on\",\"button\"]]",
     "moduleName": "ember-js-project/templates/admin/theatreupload.hbs",
     "isStrictMode": false
   });
@@ -1897,6 +1930,46 @@
     "id": "h8SjkFbw",
     "block": "[[[1,[28,[35,0],[\"EmberJsProject\"],null]],[1,\"\\n\\n\"],[46,[28,[37,2],null,null],null,null,null]],[],[\"page-title\",\"component\",\"-outlet\"]]",
     "moduleName": "ember-js-project/templates/application.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ember-js-project/templates/bookinghistory", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="movie-page">
+    <div class="movie-container">
+      <div class="movie-thumbnail">
+        <img src= "http://localhost:8080/uploads/bookings.png" alt="Poster" />
+      </div>
+  
+      <div class="movie-details">
+        <h2>Booking History</h2>
+        <p><strong>Amount Spended -> </strong> 40000</p>
+        <p><strong>Total Seats Booked -> </strong> 50 </p>
+        <p><strong>Account Status -> </strong>Active</p>
+      </div>
+    </div>
+  
+    <div class="theatre-list">
+      <h3>Bookings</h3>
+      {{#each @model as |booking|}}
+          <BookingCard @booking = {{booking}}/>
+      {{/each}}
+    </div>
+  </div>
+  
+  */
+  {
+    "id": "uEyj6t4M",
+    "block": "[[[10,0],[14,0,\"movie-page\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"movie-container\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"movie-thumbnail\"],[12],[1,\"\\n      \"],[10,\"img\"],[14,\"src\",\"http://localhost:8080/uploads/bookings.png\"],[14,\"alt\",\"Poster\"],[12],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,0],[14,0,\"movie-details\"],[12],[1,\"\\n      \"],[10,\"h2\"],[12],[1,\"Booking History\"],[13],[1,\"\\n      \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Amount Spended -> \"],[13],[1,\" 40000\"],[13],[1,\"\\n      \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Total Seats Booked -> \"],[13],[1,\" 50 \"],[13],[1,\"\\n      \"],[10,2],[12],[10,\"strong\"],[12],[1,\"Account Status -> \"],[13],[1,\"Active\"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"theatre-list\"],[12],[1,\"\\n    \"],[10,\"h3\"],[12],[1,\"Bookings\"],[13],[1,\"\\n\"],[42,[28,[37,7],[[28,[37,7],[[30,1]],null]],null],null,[[[1,\"        \"],[8,[39,8],null,[[\"@booking\"],[[30,2]]],null],[1,\"\\n\"]],[2]],null],[1,\"  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\"]],[\"@model\",\"booking\"],[\"div\",\"img\",\"h2\",\"p\",\"strong\",\"h3\",\"each\",\"-track-array\",\"booking-card\"]]",
+    "moduleName": "ember-js-project/templates/bookinghistory.hbs",
     "isStrictMode": false
   });
 });
@@ -1981,7 +2054,7 @@
       <h3>Available Theatres</h3>
   
       {{#each this.model.theatreList as |theatre|}}
-          <TheatreCard @theatre = {{theatre}} @onSelect={{fn this.handleTheatreSelect theatre}} />
+          <TheatreCard @theatre = {{theatre}} @onSelect= {{fn this.handleTheatreSelect theatre}} />
       {{/each}}
     </div>
   </div>
@@ -2041,12 +2114,12 @@
   </section>
   
   {{#if this.profileDialog}}
-  <UserProfileDialog @userName = {{this.userProfileData.name}} @userMail = {{this.userProfileData.gmail}} @onClose = {{this.closeDialog}} />
+  <UserProfileDialog @call = {{this.summa}} @userName = {{this.userProfileData.name}} @userMail = {{this.userProfileData.gmail}} @onClose = {{this.closeDialog}} />
   {{/if}}
   */
   {
-    "id": "NvtAgF9M",
-    "block": "[[[1,\"\\n\\n\"],[10,\"header\"],[14,0,\"movie-header\"],[12],[1,\"\\n  \"],[10,3],[14,6,\"#\"],[14,0,\"movie-logo\"],[12],[1,\"BookMyShow\"],[13],[1,\"\\n\\n  \"],[10,\"nav\"],[14,0,\"movie-nav\"],[12],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Home\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Shows\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Book Tickets\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Contact\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"movie-search-box\"],[12],[1,\"\\n    \"],[10,\"input\"],[14,\"placeholder\",\"Search shows...\"],[14,0,\"movie-search-input\"],[14,4,\"text\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[11,0],[24,0,\"movie-user-icon\"],[4,[38,5],[\"click\",[30,0,[\"viewProfile\"]]],null],[12],[1,\"\\n    \"],[10,\"i\"],[14,0,\"fas fa-user-circle fa-2x\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,\"section\"],[14,0,\"movies-section\"],[12],[1,\"\\n  \"],[10,\"h2\"],[14,0,\"movies-section-title\"],[12],[1,\"Now Showing\"],[13],[1,\"\\n  \"],[10,0],[14,0,\"movie-grid\"],[12],[1,\"\\n\"],[42,[28,[37,10],[[28,[37,10],[[30,1]],null]],null],null,[[[1,\"        \"],[8,[39,11],null,[[\"@movie\"],[[30,2]]],null],[1,\"\\n\"]],[2]],null],[1,\"  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[41,[30,0,[\"profileDialog\"]],[[[8,[39,13],null,[[\"@userName\",\"@userMail\",\"@onClose\"],[[30,0,[\"userProfileData\",\"name\"]],[30,0,[\"userProfileData\",\"gmail\"]],[30,0,[\"closeDialog\"]]]],null],[1,\"\\n\"]],[]],null]],[\"@model\",\"movie\"],[\"header\",\"a\",\"nav\",\"div\",\"input\",\"on\",\"i\",\"section\",\"h2\",\"each\",\"-track-array\",\"movie-card\",\"if\",\"user-profile-dialog\"]]",
+    "id": "zRX+7K6r",
+    "block": "[[[1,\"\\n\\n\"],[10,\"header\"],[14,0,\"movie-header\"],[12],[1,\"\\n  \"],[10,3],[14,6,\"#\"],[14,0,\"movie-logo\"],[12],[1,\"BookMyShow\"],[13],[1,\"\\n\\n  \"],[10,\"nav\"],[14,0,\"movie-nav\"],[12],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Home\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Shows\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Book Tickets\"],[13],[1,\"\\n    \"],[10,3],[14,6,\"#\"],[14,0,\"movie-nav-link\"],[12],[1,\"Contact\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"movie-search-box\"],[12],[1,\"\\n    \"],[10,\"input\"],[14,\"placeholder\",\"Search shows...\"],[14,0,\"movie-search-input\"],[14,4,\"text\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[11,0],[24,0,\"movie-user-icon\"],[4,[38,5],[\"click\",[30,0,[\"viewProfile\"]]],null],[12],[1,\"\\n    \"],[10,\"i\"],[14,0,\"fas fa-user-circle fa-2x\"],[12],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[10,\"section\"],[14,0,\"movies-section\"],[12],[1,\"\\n  \"],[10,\"h2\"],[14,0,\"movies-section-title\"],[12],[1,\"Now Showing\"],[13],[1,\"\\n  \"],[10,0],[14,0,\"movie-grid\"],[12],[1,\"\\n\"],[42,[28,[37,10],[[28,[37,10],[[30,1]],null]],null],null,[[[1,\"        \"],[8,[39,11],null,[[\"@movie\"],[[30,2]]],null],[1,\"\\n\"]],[2]],null],[1,\"  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"],[41,[30,0,[\"profileDialog\"]],[[[8,[39,13],null,[[\"@call\",\"@userName\",\"@userMail\",\"@onClose\"],[[30,0,[\"summa\"]],[30,0,[\"userProfileData\",\"name\"]],[30,0,[\"userProfileData\",\"gmail\"]],[30,0,[\"closeDialog\"]]]],null],[1,\"\\n\"]],[]],null]],[\"@model\",\"movie\"],[\"header\",\"a\",\"nav\",\"div\",\"input\",\"on\",\"i\",\"section\",\"h2\",\"each\",\"-track-array\",\"movie-card\",\"if\",\"user-profile-dialog\"]]",
     "moduleName": "ember-js-project/templates/movies.hbs",
     "isStrictMode": false
   });

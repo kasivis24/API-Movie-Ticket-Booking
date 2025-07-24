@@ -20,11 +20,11 @@ public class MoviesServlet extends HttpServlet {
     private AppDb appDb = AppDb.getInstance();
 
     public MoviesServlet() throws SQLException {
-
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         PrintWriter out = resp.getWriter();
 
         List<Movie> allMoviesList = null;

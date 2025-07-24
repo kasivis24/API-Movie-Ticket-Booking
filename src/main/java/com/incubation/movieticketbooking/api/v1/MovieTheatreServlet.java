@@ -25,7 +25,6 @@ public class MovieTheatreServlet extends HttpServlet {
         String pathInfo = req.getPathInfo();
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
 
         if (pathInfo == null || pathInfo.equals("/")) {
             System.out.println("1");

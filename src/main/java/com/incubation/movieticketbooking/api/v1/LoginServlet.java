@@ -20,14 +20,13 @@ public class LoginServlet extends HttpServlet {
     private final AppDb appDb = AppDb.getInstance();
 
     public LoginServlet() throws SQLException {
-        super();
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
 
         System.out.println("Login Profile");
 
